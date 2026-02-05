@@ -8,7 +8,7 @@ export const generateAIReport = async (data: ResultData): Promise<string> => {
 
   const prompt = `
     Você é um consultor de RH sênior especializado em Organizações de Autogestão e Psicometria Organizacional.
-    Analise os resultados do Person-Organization Fit para o candidato ${data.name}.
+    Analise os resultados do Person-Organization Fit para a pessoa ${data.name}.
     
     CRITÉRIOS DIAGNÓSTICOS (Use estes dados para fundamentar sua análise):
     1. IPA (Prontidão para Autonomia): Pontuação ${data.ipa.toFixed(1)}/5.0. 
@@ -51,19 +51,20 @@ export const generateAIReport = async (data: ResultData): Promise<string> => {
     - **Índice de Resiliência e Carga Cognitiva (IRCC):** Avalie a capacidade de decidir sob incerteza (B6) e o risco de burnout por ambiguidade (B7 e B8). Mencione a adequação para projetos "Greenfield".
     - **Índice de Inteligência Social e Ética (IISE):** Identifique se o perfil é um "Conector Cultural" (B5 e B9) ou se possui tendência a atuar em "Silos" (B3).
 
-    ### 3. PLANO DE AÇÃO PERSONALIZADO (ANÁLISE DE CONFLITOS)
+    ### 3. PLANO DE AÇÃO PERSONALIZADO
     Cruze as características para propor intervenções baseadas em "Personas de Risco". Analise e recomende ações se identificar:
     - Alta Iniciativa (B10) + Baixa Amabilidade (B3): "O Trator Autônomo" (Ação: Especialista em Missão Especial).
     - Alta Iniciativa (B10) + Baixa Disciplina (B4): "O Criativo Caótico" (Ação: Gestão Visual/Kanban).
     - Alta Abertura (B2) + Baixa Estabilidade (B7): "O Inovador Frágil" (Ação: Ambiente Sandbox).
     - Baixa Transparência (B5): (Ação: Protocolos de Transparência Radical).
 
-    ### 4. RECOMENDAÇÕES DE DESENVOLVIMENTO (GAPS DE ÍNDICE)
+    ### 4. RECOMENDAÇÕES DE DESENVOLVIMENTO
     Sugira práticas como Shadowing de Crise, Treinamento em CNV, Mentoria de Autoliderança ou Redesign de Papel conforme as pontuações mais baixas em IPA, IRCC ou IISE.
 
     DIRETRIZES DE TOM DE VOZ:
     - Profissional, analítico e encorajador.
     - Seja conciso e objetivo, consolidando as informações.
+    - Apresente apenas 4 sessões nesse relatório, não inclua introdução ou conclusão: 1. RESUMO EXECUTIVO, 2. DIAGNÓSTICO DOS ÍNDICES CRÍTICOS, 3. PLANO DE AÇÃO PERSONALIZADO e 4. RECOMENDAÇÕES DE DESENVOLVIMENTO
     - Use terminologia moderna (Teal, Autodireção, Coordenação Lateral).
     - Foco em "Lugar de Potência" (onde o indivíduo gera mais valor) em vez de apenas "pontos fracos".
     - Responda em Português do Brasil.
