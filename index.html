@@ -1,50 +1,52 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Person-Organization Fit</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: {
-                DEFAULT: '#008080',
-                light: '#00a3a3',
-                dark: '#006666',
-              },
-              slate: {
-                50: '#F8FAFC',
-                900: '#1E293B',
-              }
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Person-Organization Fit</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              DEFAULT: '#008080',
+              light: '#00a3a3',
+              dark: '#006666',
             },
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-            },
+            slate: {
+              50: '#F8FAFC',
+              900: '#1E293B',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
           },
         },
-      };
-    </script>
-    <style>
-      body {
-        background-color: #F8FAFC;
-        font-family: 'Inter', sans-serif;
-      }
-      .radial-progress-bg {
-        fill: none;
-        stroke: #e2e8f0;
-      }
-      .radial-progress-val {
-        fill: none;
-        stroke: #008080;
-        stroke-linecap: round;
-        transition: stroke-dashoffset 0.5s ease-out;
-      }
-    </style>
+      },
+    };
+  </script>
+  <style>
+    body {
+      background-color: #F8FAFC;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .radial-progress-bg {
+      fill: none;
+      stroke: #e2e8f0;
+    }
+
+    .radial-progress-val {
+      fill: none;
+      stroke: #008080;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.5s ease-out;
+    }
+  </style>
   <script type="importmap">
 {
   "imports": {
@@ -58,7 +60,10 @@
 }
 </script>
 </head>
-  <body>
-    <div id="root"></div>
-  </body>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+
 </html>
