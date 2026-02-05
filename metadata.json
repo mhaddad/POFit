@@ -1,7 +1,4 @@
 {
   "name": "Person-Organization Fit",
-  "description": "A sophisticated assessment tool to evaluate compatibility between individual profiles and organizational management styles (Traditional vs. Self-Management).",
-  "requestFramePermissions": [
-    "camera"
-  ]
+  "description": "A sophisticated assessment tool to evaluate compatibility between individual profiles and organizational management styles (Traditional vs. Self-Management)."
 }

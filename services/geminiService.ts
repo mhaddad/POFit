@@ -3,8 +3,9 @@ import { GoogleGenAI } from "@google/genai";
 import { ResultData } from "../types";
 
 export const generateAIReport = async (data: ResultData): Promise<string> => {
+  console.log("Initializing Gemini with Key length:", process.env.API_KEY?.length || 0);
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-  
+
   const prompt = `
     Você é um consultor de RH sênior especializado em Organizações de Autogestão e Psicometria Organizacional.
     Analise os resultados do Person-Organization Fit para o candidato ${data.name}.
@@ -30,35 +31,49 @@ export const generateAIReport = async (data: ResultData): Promise<string> => {
        - Eixo Y (Trabalho): ${data.axisY.toFixed(1)}
        - Classificação Atual: ${data.classification}
 
-    DADOS DOS BLOCOS (1-5): ${JSON.stringify(data.blockScores)}
+    5. SCORES POR BLOCO (1.0 a 5.0):
+   ${JSON.stringify(data.blockScores)}
+   (Mapeamento: B1:Autoridade, B2:Papéis, B3:Amabilidade, B4:Disciplina, B5:Transparência, B6:Ambiguidade, B7:Estabilidade, B8:Consenso, B9:Coordenação, B10:Iniciativa)
 
     INSTRUÇÕES DE FORMATO:
     Gere um relatório executivo em Markdown com os seguintes pilares obrigatórios:
 
-    # RELATÓRIO DE FIT ORGANIZACIONAL: ${data.name}
+    ESTRUTURA DO RELATÓRIO (MARKDOWN):
 
-    ### 1. ANÁLISE DE PRONTIDÃO (IPA)
-    Descreva se o perfil é "Autoengrenagem" ou dependente de estrutura. Cite riscos de procrastinação ou potencial de ownership.
+    ### 1. RESUMO EXECUTIVO
+    Defina o quadrante do respondente. Explique o "lugar ideal" dele na organização:
+    - Alta Autogestão + Alta Equipe: Perfil Colaborativo Teal (Ex: Squads/Buurtzorg).
+    - Alta Autogestão + Alto Individual: Perfil Independente Teal (Ex: MorningStar).
+    - Baixa Autogestão: Perfis Tradicionais (Corporativo Estruturado ou Especialista Isolado).
 
-    ### 2. GESTÃO DE INCERTEZA E RESILIÊNCIA (IRCC)
-    Avalie o risco de Burnout por ambiguidade ou a capacidade de atuar em projetos "Greenfield". Use o contexto de sistemas de Autogestão/Horizontais.
+    ### 2. DIAGNÓSTICO DOS ÍNDICES CRÍTICOS
+    - **Índice de Prontidão para Autonomia (IPA):** Analise se o perfil é um "Indivíduo Autodirigido" ou se depende de estrutura externa. Use os dados de B1, B4 e B10 para citar riscos de procrastinação ou potencial de ownership.
+    - **Índice de Resiliência e Carga Cognitiva (IRCC):** Avalie a capacidade de decidir sob incerteza (B6) e o risco de burnout por ambiguidade (B7 e B8). Mencione a adequação para projetos "Greenfield".
+    - **Índice de Inteligência Social e Ética (IISE):** Identifique se o perfil é um "Conector Cultural" (B5 e B9) ou se possui tendência a atuar em "Silos" (B3).
 
-    ### 3. DINÂMICA SOCIAL E ÉTICA (IISE)
-    Identifique se é um "Conector Cultural" ou se possui tendência a "Silos". Recomende treinamentos como CNV se a nota for baixa.
+    ### 3. PLANO DE AÇÃO PERSONALIZADO (ANÁLISE DE CONFLITOS)
+    Cruze as características para propor intervenções baseadas em "Personas de Risco". Analise e recomende ações se identificar:
+    - Alta Iniciativa (B10) + Baixa Amabilidade (B3): "O Trator Autônomo" (Ação: Especialista em Missão Especial).
+    - Alta Iniciativa (B10) + Baixa Disciplina (B4): "O Criativo Caótico" (Ação: Gestão Visual/Kanban).
+    - Alta Abertura (B2) + Baixa Estabilidade (B7): "O Inovador Frágil" (Ação: Ambiente Sandbox).
+    - Baixa Transparência (B5): (Ação: Protocolos de Transparência Radical).
 
-    ### 4. MATRIZ DE ALOCAÇÃO ESTRATÉGICA
-    Defina o "lugar ideal" (Facilitador de Squads, Especialista Autônomo, Gestor Tradicional ou Executor de Processo).
+    ### 4. RECOMENDAÇÕES DE DESENVOLVIMENTO (GAPS DE ÍNDICE)
+    Sugira práticas como Shadowing de Crise, Treinamento em CNV, Mentoria de Autoliderança ou Redesign de Papel conforme as pontuações mais baixas em IPA, IRCC ou IISE.
 
-    ### 5. PLANO DE AÇÃO PERSONALIZADO
-    Proponha intervenções práticas baseadas nos gaps (ex: Shadowing de Crise, GTD, Mentoria de Produtividade, Feedback 360º). Se houver alta autonomia mas baixa amabilidade, sugira o papel de "Especialista em Missão Especial".
-
-    Mantenha um tom executivo, preciso e voltado para a tomada de decisão.
+    DIRETRIZES DE TOM DE VOZ:
+    - Profissional, analítico e encorajador.
+    - Seja conciso e objetivo, consolidando as informações.
+    - Use terminologia moderna (Teal, Autodireção, Coordenação Lateral).
+    - Foco em "Lugar de Potência" (onde o indivíduo gera mais valor) em vez de apenas "pontos fracos".
+    - Responda em Português do Brasil.
   `;
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-preview',
+      model: 'gemini-2.5-flash',
       contents: prompt,
+      temperature: 0.7,
     });
     return response.text || "Não foi possível gerar o relatório no momento.";
   } catch (error) {

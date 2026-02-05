@@ -1,11 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
 import Layout from '../components/Layout';
 import { CompetencyRadar, OrthogonalMatrix } from '../components/Charts';
 import { ResultData } from '../types';
 import { generateAIReport } from '../services/geminiService';
-import { 
-  Download, Share2, Award, Zap, Brain, Users, Sparkles, 
+import {
+  Download, Share2, Award, Zap, Brain, Users, Sparkles,
   ArrowUpRight, AlertCircle, FileText, Loader2, Info, CheckCircle2, Target
 } from 'lucide-react';
 
@@ -17,7 +18,7 @@ const Result: React.FC = () => {
   useEffect(() => {
     const hashParts = window.location.hash.split('/');
     const resultId = hashParts[hashParts.length - 1];
-    
+
     if (resultId) {
       const stored = localStorage.getItem(`po-fit-results-${resultId}`);
       if (stored) {
@@ -37,7 +38,7 @@ const Result: React.FC = () => {
     const report = await generateAIReport(result);
     setAiReport(report);
     setIsAiLoading(false);
-    
+
     const updated = { ...result, aiReport: report };
     localStorage.setItem(`po-fit-results-${result.id}`, JSON.stringify(updated));
   };
@@ -117,13 +118,13 @@ const Result: React.FC = () => {
         <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 flex flex-col md:flex-row items-center gap-10">
           <div className="relative">
             <div className="size-40 rounded-full bg-slate-100 flex items-center justify-center border-4 border-white shadow-xl overflow-hidden">
-               <img src={`https://picsum.photos/seed/${data.id}/200`} alt="Avatar" className="size-full object-cover" />
+              <img src={`https://picsum.photos/seed/${data.id}/200`} alt="Avatar" className="size-full object-cover" />
             </div>
             <div className="absolute -bottom-2 -right-2 bg-primary text-white p-2 rounded-xl shadow-lg">
               <Award size={24} />
             </div>
           </div>
-          
+
           <div className="flex-grow text-center md:text-left">
             <span className="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full uppercase tracking-widest">
               Análise de Fit Pessoa-Organização
@@ -143,23 +144,23 @@ const Result: React.FC = () => {
           </div>
 
           <div className="flex flex-col items-center justify-center p-6 bg-slate-900 rounded-3xl min-w-[220px] text-white">
-             <div className="relative size-32">
-                <svg className="size-full transform -rotate-90">
-                  <circle className="radial-progress-bg" cx="64" cy="64" r="58" strokeWidth="8" style={{stroke: '#334155'}} />
-                  <circle 
-                    className="radial-progress-val" 
-                    cx="64" cy="64" r="58" strokeWidth="8" 
-                    strokeDasharray={364} 
-                    strokeDashoffset={364 - (364 * data.overallScore) / 100}
-                    style={{stroke: '#008080'}}
-                  />
-                </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-3xl font-black text-white">{Math.round(data.overallScore)}%</span>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">Fit Score Autogestão</span>
-                </div>
-             </div>
-             <p className="mt-4 text-sm font-bold text-slate-300">Prontidão Organizacional</p>
+            <div className="relative size-32">
+              <svg className="size-full transform -rotate-90">
+                <circle className="radial-progress-bg" cx="64" cy="64" r="58" strokeWidth="8" style={{ stroke: '#334155' }} />
+                <circle
+                  className="radial-progress-val"
+                  cx="64" cy="64" r="58" strokeWidth="8"
+                  strokeDasharray={364}
+                  strokeDashoffset={364 - (364 * data.overallScore) / 100}
+                  style={{ stroke: '#008080' }}
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className="text-3xl font-black text-white">{Math.round(data.overallScore)}%</span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase">Fit Score Autogestão</span>
+              </div>
+            </div>
+            <p className="mt-4 text-sm font-bold text-slate-300">Prontidão Organizacional</p>
           </div>
         </div>
 
@@ -272,10 +273,10 @@ const Result: React.FC = () => {
                 <h4 className="text-xs font-bold text-slate-500 uppercase mb-2">Lugar Ideal na Organização</h4>
                 <p className="text-sm font-bold text-primary">{data.classification}</p>
                 <p className="text-xs text-slate-500 mt-1 italic">
-                  {data.axisX >= 3 && data.axisY >= 3 ? "O Facilitador de Squads: Desenvolver habilidades de facilitação e governança dinâmica." : 
-                   data.axisX >= 3 && data.axisY < 3 ? "O Especialista Autônomo: Focar em contratos de responsabilidade clara e autonomia técnica." : 
-                   data.axisX < 3 && data.axisY >= 3 ? "O Gestor de Equipes Tradicional: Necessita 'desaprender' controle em ambientes de autogestão." : 
-                   "O Executor de Processo: Alocar em tarefas técnicas repetitivas com manuais rígidos."}
+                  {data.axisX >= 3 && data.axisY >= 3 ? "O Facilitador de Squads: Desenvolver habilidades de facilitação e governança dinâmica." :
+                    data.axisX >= 3 && data.axisY < 3 ? "O Especialista Autônomo: Focar em contratos de responsabilidade clara e autonomia técnica." :
+                      data.axisX < 3 && data.axisY >= 3 ? "O Gestor de Equipes Tradicional: Necessita 'desaprender' controle em ambientes de autogestão." :
+                        "O Executor de Processo: Alocar em tarefas técnicas repetitivas com manuais rígidos."}
                 </p>
               </div>
             </div>
@@ -293,12 +294,12 @@ const Result: React.FC = () => {
             <div className="absolute top-0 right-0 p-8 text-primary/5 select-none pointer-events-none">
               <Sparkles size={120} />
             </div>
-            
+
             <div className="flex items-center gap-2 text-primary font-black text-xs uppercase tracking-widest mb-4">
               <Sparkles size={16} /> Relatório Gerado por IA
             </div>
-            <h2 className="text-3xl font-black text-slate-900 mb-8 leading-tight">Síntese do Perfil e<br/>Plano de Ação</h2>
-            
+            <h2 className="text-3xl font-black text-slate-900 mb-8 leading-tight">Síntese do Perfil e<br />Plano de Ação</h2>
+
             {isAiLoading ? (
               <div className="flex-grow flex flex-col items-center justify-center gap-4 py-12">
                 <Loader2 className="animate-spin text-primary" size={48} />
@@ -312,7 +313,9 @@ const Result: React.FC = () => {
                   prose-strong:text-slate-800 prose-strong:font-bold
                   prose-ul:text-sm prose-li:text-slate-600">
                   {aiReport ? (
-                    <div dangerouslySetInnerHTML={{ __html: aiReport.replace(/\n/g, '<br/>') }} />
+                    <ReactMarkdown>
+                      {aiReport.replace(/```markdown/g, '').replace(/```/g, '')}
+                    </ReactMarkdown>
                   ) : (
                     <div className="p-8 bg-slate-50 rounded-2xl flex items-center gap-4 text-slate-500 italic text-sm">
                       <AlertCircle size={20} />
