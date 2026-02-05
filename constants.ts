@@ -1,0 +1,35 @@
+
+import { Question } from './types';
+
+export const QUESTIONS: Question[] = [
+  { id: 1, text: "Prefiro definir minhas próprias prioridades em vez de seguir um cronograma imposto por um superior.", block: "B1" },
+  { id: 2, text: "Sinto-me confortável em tomar decisões críticas sem aguardar a aprovação de um chefe.", block: "B1" },
+  { id: 3, text: "Acredito que a autoridade deve vir do conhecimento técnico e não da posição hierárquica.", block: "B1" },
+  { id: 4, text: "Gosto de transitar entre diferentes papéis e funções conforme a necessidade do projeto.", block: "B2" },
+  { id: 5, text: "Sinto-me produtivo atuando em uma organização sem descrições de cargo rígidas.", block: "B2" },
+  { id: 6, text: "Prefiro ser avaliado pelo valor que gero do que pelo cumprimento estrito de uma função fixa.", block: "B2" },
+  { id: 7, text: "Sinto-me mais motivado quando os resultados dependem da colaboração intensa entre colegas.", block: "B3" },
+  { id: 8, text: "Prefiro dedicar tempo para coordenar ações com o grupo do que executar tarefas isoladas.", block: "B3" },
+  { id: 9, text: "Sinto prazer em resolver conflitos diretamente com meus pares por meio da mediação.", block: "B3" },
+  { id: 10, text: "Organizo minhas metas e prazos com rigor, mesmo sem qualquer supervisão direta.", block: "B4" },
+  { id: 11, text: "Prefiro ambientes onde a gestão do tempo é uma responsabilidade individual e não controlada.", block: "B4" },
+  { id: 12, text: "Mantenho a excelência do meu trabalho sob meu próprio monitoramento constante.", block: "B4" },
+  { id: 13, text: "Prefiro trabalhar em ambientes onde todos os dados da empresa são acessíveis a todos.", block: "B5" },
+  { id: 14, text: "Sinto-me confortável em expor minhas falhas abertamente para que o time aprenda com elas.", block: "B5" },
+  { id: 15, text: "Acredito que o compartilhamento total de informações é mais seguro do que a retenção estratégica.", block: "B5" },
+  { id: 16, text: "Atuo com segurança mesmo quando os processos e regras não estão totalmente definidos.", block: "B6" },
+  { id: 17, text: "Sinto-me confortável em criar meu próprio caminho quando as instruções são vagas.", block: "B6" },
+  { id: 18, text: "Vejo a falta de uma estrutura rígida como um espaço para inovação e não como um problema.", block: "B6" },
+  { id: 19, text: "Lido bem com a pressão de ser o único responsável pelas consequências das minhas escolhas.", block: "B7" },
+  { id: 20, text: "Mantenho o equilíbrio emocional quando recebo feedbacks diretos e frequentes de meus pares.", block: "B7" },
+  { id: 21, text: "Sinto segurança em ambientes dinâmicos onde as estruturas mudam constantemente.", block: "B7" },
+  { id: 22, text: "Prefiro que as discussões permaneçam abertas até que a melhor solução coletiva surja.", block: "B8" },
+  { id: 23, text: "Sinto-me confortável com processos decisórios que exigem paciência e múltiplas opiniões.", block: "B8" },
+  { id: 24, text: "Mudo de opinião facilmente quando percebo que a visão do grupo é mais eficaz que a minha.", block: "B8" },
+  { id: 25, text: "Sinto que meu melhor desempenho ocorre quando estou inserido em um time fixo (ex: Squad).", block: "B9" },
+  { id: 26, text: "Prefiro metas que só podem ser alcançadas através do esforço síncrono da equipe.", block: "B9" },
+  { id: 27, text: "Considero as reuniões de alinhamento com colegas essenciais e não uma interrupção.", block: "B9" },
+  { id: 28, text: "Busco novos desafios e problemas para resolver sem esperar ser solicitado por alguém.", block: "B10" },
+  { id: 29, text: "Alinho minhas ações diárias diretamente ao propósito da empresa, sem mediação de metas de terceiros.", block: "B10" },
+  { id: 30, text: "Prefiro um ambiente onde eu possa influenciar o design da organização e do meu próprio trabalho.", block: "B10" }
+];
