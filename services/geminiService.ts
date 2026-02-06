@@ -42,8 +42,8 @@ export const generateAIReport = async (data: ResultData): Promise<string> => {
 
     ### 1. RESUMO EXECUTIVO
     Defina o quadrante do respondente. Explique o "lugar ideal" dele na organização:
-    - Alta Autogestão + Alta Equipe: Perfil Colaborativo Teal (Ex: Squads/Buurtzorg).
-    - Alta Autogestão + Alto Individual: Perfil Independente Teal (Ex: MorningStar).
+    - Alta Autogestão + Alta Equipe: Perfil Autogestão-Colaborativo (Ex: Ateliê de Software, Buurtzorg, Valve).
+    - Alta Autogestão + Alto Individual: Perfil Autogestão-Independente (Ex: MorningStar, Haier, Gore).
     - Baixa Autogestão: Perfis Tradicionais (Corporativo Estruturado ou Especialista Isolado).
 
     ### 2. DIAGNÓSTICO DOS ÍNDICES CRÍTICOS

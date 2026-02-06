@@ -46,11 +46,10 @@ const Assessment: React.FC = () => {
               style={{ width: `${progress}%` }}
             />
           </div>
-          <p className="mt-3 text-sm text-primary font-medium">Questionário de Autogestão vs. Estruturas Tradicionais</p>
         </div>
 
         <div className="mb-12">
-          <h1 className="text-3xl font-extrabold text-slate-900 mb-4">Avaliação de Ajuste Pessoa-Organização</h1>
+          <h1 className="text-3xl font-extrabold text-slate-900 mb-4">Avaliação do Person-Organization Fit</h1>
           <p className="text-slate-500">
             Por favor, responda às questões abaixo selecionando o nível que melhor descreve sua opinião em relação ao seu ambiente de trabalho ideal.
           </p>

@@ -85,69 +85,86 @@ const LeadForm: React.FC<LeadFormProps> = ({ answers }) => {
   };
 
   return (
+
     <Layout>
-      <div className="max-w-md mx-auto px-4 py-20">
-        <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-xl">
-          <div className="text-center mb-8">
-            <div className="size-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
-              <ShieldCheck size={32} />
-            </div>
-            <h1 className="text-2xl font-bold text-slate-900 mb-2">Quase pronto!</h1>
-            <p className="text-slate-500 text-sm">
-              Identifique-se para gerarmos seu relatório personalizado e dashboard de resultados.
-            </p>
+      <div className="max-w-3xl mx-auto px-4 py-10">
+        <div className="mb-10">
+          <div className="flex justify-between items-end mb-2">
+            <h2 className="text-slate-900 font-bold">Quase lá!</h2>
+            <span className="text-sm font-semibold text-primary">100% concluído</span>
           </div>
+          <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-primary transition-all duration-500 ease-out"
+              style={{ width: '100%' }}
+            />
+          </div>
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-sm font-bold text-slate-700 mb-1">Nome Completo</label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                <input
-                  required
-                  type="text"
-                  value={name}
-                  onChange={e => setName(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                  placeholder="Seu nome"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-bold text-slate-700 mb-1">E-mail Profissional</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                <input
-                  required
-                  type="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                  placeholder="seu@email.com"
-                />
-              </div>
-            </div>
-
-            <button
-              disabled={isLoading}
-              type="submit"
-              className="w-full py-4 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/25 hover:bg-primary-dark transition-all flex items-center justify-center gap-2"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="animate-spin" size={20} />
-                  Processando...
-                </>
-              ) : (
-                'Ver meu resultado'
-              )}
-            </button>
-          </form>
-
-          <p className="mt-6 text-[10px] text-center text-slate-400 uppercase font-bold tracking-widest">
-            Seus dados estão seguros e protegidos
+        <div className="mb-12">
+          <h1 className="text-3xl font-extrabold text-slate-900 mb-4">Seu perfil foi identificado!</h1>
+          <p className="text-slate-500 text-lg">
+            Para finalizar e gerar seu relatório detalhado com o diagnóstico de Person-Organization Fit, precisamos apenas que você se identifique abaixo.
           </p>
+        </div>
+
+        <div className="max-w-xl">
+          <form onSubmit={handleSubmit} className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-2">Nome</label>
+                <div className="relative">
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                  <input
+                    required
+                    type="text"
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-medium text-slate-800"
+                    placeholder="Seu nome"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-2">E-mail</label>
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                  <input
+                    required
+                    type="email"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-medium text-slate-800"
+                    placeholder="seu@email.com"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-4">
+              <button
+                disabled={isLoading}
+                type="submit"
+                className="w-full md:w-auto px-10 py-4 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/25 hover:bg-primary-dark transition-all flex items-center justify-center gap-3 text-lg"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="animate-spin" size={24} />
+                    Gerando Relatório...
+                  </>
+                ) : (
+                  <>
+                    <ShieldCheck size={24} />
+                    Revelar meu Resultado
+                  </>
+                )}
+              </button>
+              <p className="mt-4 text-xs text-slate-400 font-medium">
+                * Seus dados são confidenciais e usados apenas para gerar este relatório.
+              </p>
+            </div>
+          </form>
         </div>
       </div>
     </Layout>
