@@ -35,12 +35,21 @@ const Result: React.FC = () => {
 
   const fetchAiReport = async (result: ResultData) => {
     setIsAiLoading(true);
-    const report = await generateAIReport(result);
-    setAiReport(report);
-    setIsAiLoading(false);
+    try {
+      const report = await generateAIReport(result);
+      setAiReport(report);
 
-    const updated = { ...result, aiReport: report };
-    localStorage.setItem(`po-fit-results-${result.id}`, JSON.stringify(updated));
+      const updated = { ...result, aiReport: report };
+      localStorage.setItem(`po-fit-results-${result.id}`, JSON.stringify(updated));
+
+      // Update in Supabase
+      const { updateAssessmentAIReport } = await import('../services/assessmentService');
+      await updateAssessmentAIReport(result.id, report);
+    } catch (error) {
+      console.error("Failed to generate or save AI report:", error);
+    } finally {
+      setIsAiLoading(false);
+    }
   };
 
   const getIPADiagnostic = (score: number) => {

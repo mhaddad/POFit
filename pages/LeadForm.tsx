@@ -42,7 +42,7 @@ const LeadForm: React.FC<LeadFormProps> = ({ answers }) => {
     else classification = FitClassification.SPECIALIST_ISOLATED;
 
     return {
-      id: Math.random().toString(36).substr(2, 9),
+      id: crypto.randomUUID(),
       date: new Date().toISOString(),
       name,
       email,
@@ -57,20 +57,31 @@ const LeadForm: React.FC<LeadFormProps> = ({ answers }) => {
     };
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     const result = calculateResults();
-    
-    // In a real app, save to DB here
-    const resultsKey = `po-fit-results-${result.id}`;
-    localStorage.setItem(resultsKey, JSON.stringify(result));
-    
-    // Simulate processing
-    setTimeout(() => {
+
+    try {
+      // Save local backup
+      const resultsKey = `po-fit-results-${result.id}`;
+      localStorage.setItem(resultsKey, JSON.stringify(result));
+
+      // Save to Supabase
+      const { saveAssessment } = await import('../services/assessmentService');
+      await saveAssessment(result);
+
+      // Simulate processing (reduced time since we have real async now)
+      setTimeout(() => {
+        window.location.hash = `#/result/${result.id}`;
+      }, 500);
+    } catch (error) {
+      console.error('Failed to save assessment', error);
+      // Fallback: still redirect if local save worked, maybe show toast?
+      // For now, proceed.
       window.location.hash = `#/result/${result.id}`;
-    }, 1500);
+    }
   };
 
   return (
