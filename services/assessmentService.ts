@@ -75,3 +75,43 @@ export const getAssessment = async (id: string) => {
 
     return result;
 };
+
+export const getAllAssessments = async () => {
+    const { data, error } = await supabase
+        .from('assessments')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        console.error('Error fetching assessments:', error);
+        return [];
+    }
+
+    return data.map((item: any) => ({
+        id: item.id,
+        date: item.created_at,
+        name: item.name,
+        email: item.email,
+        overallScore: item.overall_score,
+        classification: item.classification,
+        blockScores: item.block_scores,
+        ipa: item.ipa,
+        ircc: item.ircc,
+        iise: item.iise,
+        axisX: item.axis_x,
+        axisY: item.axis_y,
+        aiReport: item.ai_report
+    })) as ResultData[];
+};
+
+export const deleteAssessment = async (id: string) => {
+    const { error } = await supabase
+        .from('assessments')
+        .delete()
+        .eq('id', id);
+
+    if (error) {
+        console.error('Error deleting assessment:', error);
+        throw error;
+    }
+};

@@ -16,33 +16,45 @@ const Result: React.FC = () => {
   const [isAiLoading, setIsAiLoading] = useState(false);
 
   useEffect(() => {
-    const hashParts = window.location.hash.split('/');
-    const resultId = hashParts[hashParts.length - 1];
+    const fetchData = async () => {
+      const hashParts = window.location.hash.split('/');
+      const resultId = hashParts[hashParts.length - 1];
 
-    if (resultId) {
-      const stored = localStorage.getItem(`po-fit-results-${resultId}`);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        setData(parsed);
-        if (!parsed.aiReport) {
-          fetchAiReport(parsed);
-        } else {
-          setAiReport(parsed.aiReport);
+      if (resultId) {
+        try {
+          const { getAssessment } = await import('../services/assessmentService');
+          const dbResult = await getAssessment(resultId);
+
+          if (dbResult) {
+            setData(dbResult);
+            // Check if AI report already exists in DB
+            if (dbResult.aiReport && dbResult.aiReport.length > 0) {
+              setAiReport(dbResult.aiReport);
+            } else {
+              // Only generate if it doesn't exist
+              fetchAiReport(dbResult);
+            }
+          } else {
+            console.warn('Assessment not found in DB');
+          }
+        } catch (error) {
+          console.error('Error fetching assessment:', error);
         }
       }
-    }
+    };
+    fetchData();
   }, []);
 
   const fetchAiReport = async (result: ResultData) => {
+    // Prevent double execution
+    if (isAiLoading || aiReport) return;
+
     setIsAiLoading(true);
     try {
       const report = await generateAIReport(result);
       setAiReport(report);
 
-      const updated = { ...result, aiReport: report };
-      localStorage.setItem(`po-fit-results-${result.id}`, JSON.stringify(updated));
-
-      // Update in Supabase
+      // Update in Supabase immediately
       const { updateAssessmentAIReport } = await import('../services/assessmentService');
       await updateAssessmentAIReport(result.id, report);
     } catch (error) {
