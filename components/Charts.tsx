@@ -107,7 +107,7 @@ export const OrthogonalMatrix: React.FC<OrthogonalMatrixProps> = ({ x, y, userNa
             name="Trabalho"
             domain={[1, 5]}
             ticks={[1, 3, 5]}
-            label={{ value: 'Trabalho (Individual → Equipe)', angle: -90, position: 'left', offset: -10, fontSize: 10 }}
+            label={{ value: 'Trabalho (Individual → Equipe)', angle: -90, position: 'Left', dy: -5, offset: -10, fontSize: 10 }}
           />
           <ZAxis type="number" range={[100, 100]} />
           <Tooltip cursor={{ strokeDasharray: '3 3' }} />

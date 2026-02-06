@@ -7,13 +7,14 @@ import { ResultData } from '../types';
 import { generateAIReport } from '../services/geminiService';
 import {
   Download, Share2, Award, Zap, Brain, Users, Sparkles,
-  ArrowUpRight, AlertCircle, FileText, Loader2, Info, CheckCircle2, Target
+  ArrowUpRight, AlertCircle, FileText, Loader2, Info, CheckCircle2, Target, Copy, Check
 } from 'lucide-react';
 
 const Result: React.FC = () => {
   const [data, setData] = useState<ResultData | null>(null);
   const [aiReport, setAiReport] = useState<string | null>(null);
   const [isAiLoading, setIsAiLoading] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -118,6 +119,12 @@ const Result: React.FC = () => {
     };
   };
 
+  const handleCopyUrl = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
+  };
+
   if (!data) {
     return (
       <Layout>
@@ -154,13 +161,20 @@ const Result: React.FC = () => {
             <p className="text-slate-500 font-medium text-lg">
               <span className="text-primary font-bold">{data.classification}</span>
             </p>
-            <div className="mt-4 flex flex-wrap gap-2 justify-center md:justify-start">
-              <span className="px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold flex items-center gap-1">
-                <Target size={14} /> X: {data.axisX.toFixed(1)} (Gestão)
-              </span>
-              <span className="px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold flex items-center gap-1">
-                <Users size={14} /> Y: {data.axisY.toFixed(1)} (Trabalho)
-              </span>
+
+            <div className="mt-3 flex items-center gap-2">
+              <div className="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 max-w-full md:max-w-md overflow-hidden">
+                <span className="text-xs text-slate-500 font-mono truncate select-all">
+                  {typeof window !== 'undefined' ? window.location.href : ''}
+                </span>
+              </div>
+              <button
+                onClick={handleCopyUrl}
+                className="p-2 hover:bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all text-slate-400 hover:text-primary"
+                title="Copiar Link"
+              >
+                {isCopied ? <Check size={16} /> : <Copy size={16} />}
+              </button>
             </div>
           </div>
 

@@ -63,9 +63,10 @@ export const generateAIReport = async (data: ResultData): Promise<string> => {
 
     DIRETRIZES DE TOM DE VOZ:
     - Profissional, analítico e encorajador.
+    - Não utilize a palavra Autoengrenagem. Prefira Autogerido.
     - Seja conciso e objetivo, consolidando as informações.
     - Apresente apenas 4 sessões nesse relatório, não inclua introdução ou conclusão: 1. RESUMO EXECUTIVO, 2. DIAGNÓSTICO DOS ÍNDICES CRÍTICOS, 3. PLANO DE AÇÃO PERSONALIZADO e 4. RECOMENDAÇÕES DE DESENVOLVIMENTO
-    - Use terminologia moderna (Teal, Autodireção, Coordenação Lateral).
+    - Use terminologia moderna (Autogestão, Autodireção, Auto-organização,Coordenação Compartilhada, Liderança Emergente).
     - Foco em "Lugar de Potência" (onde o indivíduo gera mais valor) em vez de apenas "pontos fracos".
     - Responda em Português do Brasil.
   `;
