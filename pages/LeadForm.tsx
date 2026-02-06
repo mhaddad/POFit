@@ -85,7 +85,7 @@ const LeadForm: React.FC<LeadFormProps> = ({ answers }) => {
   };
 
   return (
-    <Layout title="Quase lá!">
+    <Layout>
       <div className="max-w-md mx-auto px-4 py-20">
         <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-xl">
           <div className="text-center mb-8">

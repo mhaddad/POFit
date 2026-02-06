@@ -33,7 +33,7 @@ const Assessment: React.FC = () => {
   const progress = (Object.keys(answers).length / QUESTIONS.length) * 100;
 
   return (
-    <Layout title="Avaliação de Ajuste">
+    <Layout>
       <div className="max-w-3xl mx-auto px-4 py-10">
         <div className="mb-10">
           <div className="flex justify-between items-end mb-2">
@@ -41,8 +41,8 @@ const Assessment: React.FC = () => {
             <span className="text-sm font-semibold text-primary">{Math.round(progress)}% concluído</span>
           </div>
           <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-primary transition-all duration-500 ease-out" 
+            <div
+              className="h-full bg-primary transition-all duration-500 ease-out"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -62,12 +62,12 @@ const Assessment: React.FC = () => {
               <p className="text-lg font-semibold text-slate-800 mb-6 group-hover:text-primary transition-colors">
                 {q.id}. {q.text}
               </p>
-              
+
               <div className="flex flex-col sm:flex-row items-center gap-4">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest sm:w-24 text-center sm:text-right">
                   Discordo Totalmente
                 </span>
-                
+
                 <div className="flex items-center gap-2 sm:gap-4">
                   {[1, 2, 3, 4, 5].map(val => (
                     <button
@@ -75,8 +75,8 @@ const Assessment: React.FC = () => {
                       onClick={() => handleAnswer(q.id, val)}
                       className={`
                         size-12 rounded-full border-2 font-bold text-lg transition-all
-                        ${answers[q.id] === val 
-                          ? 'bg-primary border-primary text-white scale-110 shadow-lg shadow-primary/20' 
+                        ${answers[q.id] === val
+                          ? 'bg-primary border-primary text-white scale-110 shadow-lg shadow-primary/20'
                           : 'border-slate-200 text-slate-400 hover:border-primary/50 hover:text-primary'}
                       `}
                     >

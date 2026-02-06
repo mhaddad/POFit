@@ -66,7 +66,7 @@ const Result: React.FC = () => {
 
   const getIPADiagnostic = (score: number) => {
     if (score >= 4.0) return {
-      status: "Perfil 'Autoengrenagem'",
+      status: "Perfil Autogerido",
       report: "Indivíduo com alta disciplina interna e senso de ownership. Define o 'como' fazer além do 'o que'.",
       action: "Conceder liberdade total de agenda. Evitar microgestão e reuniões de status desnecessárias."
     };
@@ -133,7 +133,7 @@ const Result: React.FC = () => {
   const iiseDiag = getIISEDiagnostic(data.iise);
 
   return (
-    <Layout title="Dashboard de Resultados">
+    <Layout>
       <div className="max-w-7xl mx-auto px-4 py-10 space-y-12">
         {/* Profile Hero */}
         <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 flex flex-col md:flex-row items-center gap-10">
@@ -148,11 +148,11 @@ const Result: React.FC = () => {
 
           <div className="flex-grow text-center md:text-left">
             <span className="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full uppercase tracking-widest">
-              Análise de Fit Pessoa-Organização
+              Resultado da análise de Person-Organization Fit
             </span>
             <h1 className="text-4xl font-black text-slate-900 mt-2 mb-1">{data.name}</h1>
             <p className="text-slate-500 font-medium text-lg">
-              Perfil: <span className="text-primary font-bold">{data.classification}</span>
+              <span className="text-primary font-bold">{data.classification}</span>
             </p>
             <div className="mt-4 flex flex-wrap gap-2 justify-center md:justify-start">
               <span className="px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold flex items-center gap-1">
@@ -178,20 +178,16 @@ const Result: React.FC = () => {
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <span className="text-3xl font-black text-white">{Math.round(data.overallScore)}%</span>
-                <span className="text-[10px] font-bold text-slate-400 uppercase">Fit Score Autogestão</span>
               </div>
             </div>
-            <p className="mt-4 text-sm font-bold text-slate-300">Prontidão Organizacional</p>
+            <p className="mt-4 text-sm font-bold text-slate-300">Fit Score Autogestão</p>
           </div>
         </div>
 
         {/* Diagnostic Pillars Section */}
         <section className="space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-black text-slate-900">Pilares Diagnósticos</h2>
-            <div className="px-4 py-1 bg-primary/10 text-primary text-[10px] font-black rounded-full uppercase tracking-widest">
-              Análise por blocos (B1-B10)
-            </div>
+            <h2 className="text-2xl font-black text-slate-900">Diagnóstico do perfil</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -200,7 +196,7 @@ const Result: React.FC = () => {
               <div className="p-6 border-b border-slate-50 flex items-center justify-between bg-amber-50/30">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-amber-100 text-amber-600 rounded-xl"><Zap size={20} /></div>
-                  <h3 className="font-bold text-slate-800">IPA</h3>
+                  <h3 className="font-bold text-slate-800">Índice de Prontidão para Autonomia</h3>
                 </div>
                 <span className="text-2xl font-black text-amber-600">{data.ipa.toFixed(1)}</span>
               </div>
@@ -228,7 +224,7 @@ const Result: React.FC = () => {
               <div className="p-6 border-b border-slate-50 flex items-center justify-between bg-blue-50/30">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-blue-100 text-blue-600 rounded-xl"><Brain size={20} /></div>
-                  <h3 className="font-bold text-slate-800">IRCC</h3>
+                  <h3 className="font-bold text-slate-800">Índice de Resiliência e Carga Cognitiva</h3>
                 </div>
                 <span className="text-2xl font-black text-blue-600">{data.ircc.toFixed(1)}</span>
               </div>
@@ -256,7 +252,7 @@ const Result: React.FC = () => {
               <div className="p-6 border-b border-slate-50 flex items-center justify-between bg-purple-50/30">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-purple-100 text-purple-600 rounded-xl"><Users size={20} /></div>
-                  <h3 className="font-bold text-slate-800">IISE</h3>
+                  <h3 className="font-bold text-slate-800">Índice de Inteligência Social e Ética</h3>
                 </div>
                 <span className="text-2xl font-black text-purple-600">{data.iise.toFixed(1)}</span>
               </div>
@@ -287,17 +283,16 @@ const Result: React.FC = () => {
             <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
               <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
                 <FileText size={18} className="text-primary" />
-                Matriz Ortogonal de Alocação
+                Lugar Ideal na Organização
               </h3>
               <OrthogonalMatrix x={data.axisX} y={data.axisY} userName={data.name} />
               <div className="mt-6 p-4 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
-                <h4 className="text-xs font-bold text-slate-500 uppercase mb-2">Lugar Ideal na Organização</h4>
                 <p className="text-sm font-bold text-primary">{data.classification}</p>
                 <p className="text-xs text-slate-500 mt-1 italic">
-                  {data.axisX >= 3 && data.axisY >= 3 ? "O Facilitador de Squads: Desenvolver habilidades de facilitação e governança dinâmica." :
-                    data.axisX >= 3 && data.axisY < 3 ? "O Especialista Autônomo: Focar em contratos de responsabilidade clara e autonomia técnica." :
-                      data.axisX < 3 && data.axisY >= 3 ? "O Gestor de Equipes Tradicional: Necessita 'desaprender' controle em ambientes de autogestão." :
-                        "O Executor de Processo: Alocar em tarefas técnicas repetitivas com manuais rígidos."}
+                  {data.axisX >= 3 && data.axisY >= 3 ? "O Facilitador: Desenvolver habilidades de facilitação e governança dinâmica." :
+                    data.axisX >= 3 && data.axisY < 3 ? "O Especialista: Focar em contratos de responsabilidade clara e autonomia técnica." :
+                      data.axisX < 3 && data.axisY >= 3 ? "O Gestor Tradicional: Necessita 'desaprender' controle em ambientes de autogestão." :
+                        "O Executor: Alocar em tarefas técnicas repetitivas com manuais rígidos."}
                 </p>
               </div>
             </div>
@@ -305,7 +300,7 @@ const Result: React.FC = () => {
             <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
               <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
                 <Zap size={18} className="text-primary" />
-                Radar de Competências (B1-B10)
+                Radar de Competências
               </h3>
               <CompetencyRadar scores={data.blockScores} />
             </div>
@@ -319,8 +314,6 @@ const Result: React.FC = () => {
             <div className="flex items-center gap-2 text-primary font-black text-xs uppercase tracking-widest mb-4">
               <Sparkles size={16} /> Relatório Gerado por IA
             </div>
-            <h2 className="text-3xl font-black text-slate-900 mb-8 leading-tight">Síntese do Perfil e<br />Plano de Ação</h2>
-
             {isAiLoading ? (
               <div className="flex-grow flex flex-col items-center justify-center gap-4 py-12">
                 <Loader2 className="animate-spin text-primary" size={48} />
@@ -346,15 +339,6 @@ const Result: React.FC = () => {
                 </article>
               </div>
             )}
-
-            <div className="mt-12 flex flex-wrap justify-end gap-3 pt-8 border-t border-slate-100">
-              <button className="flex items-center gap-2 px-5 py-3 border border-slate-200 text-slate-600 font-bold text-sm rounded-xl hover:bg-slate-50 transition-all">
-                <Download size={16} /> PDF
-              </button>
-              <button className="flex items-center gap-2 px-5 py-3 bg-primary text-white font-bold text-sm rounded-xl hover:bg-primary-dark transition-all shadow-lg shadow-primary/20">
-                <Share2 size={16} /> Compartilhar
-              </button>
-            </div>
           </div>
         </div>
       </div>
