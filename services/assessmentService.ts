@@ -1,6 +1,7 @@
 
 import { supabase } from './supabaseClient';
 import { ResultData } from '../types';
+import { calculateSubQuadrant } from '../utils/calculations';
 
 export const saveAssessment = async (data: ResultData) => {
     const { error } = await supabase
@@ -70,7 +71,8 @@ export const getAssessment = async (id: string) => {
         iise: data.iise,
         axisX: data.axis_x,
         axisY: data.axis_y,
-        aiReport: data.ai_report
+        aiReport: data.ai_report,
+        subQuadrant: calculateSubQuadrant(data.axis_x, data.axis_y)
     };
 
     return result;
@@ -100,7 +102,8 @@ export const getAllAssessments = async () => {
         iise: item.iise,
         axisX: item.axis_x,
         axisY: item.axis_y,
-        aiReport: item.ai_report
+        aiReport: item.ai_report,
+        subQuadrant: calculateSubQuadrant(item.axis_x, item.axis_y)
     })) as ResultData[];
 };
 

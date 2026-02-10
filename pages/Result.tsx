@@ -65,58 +65,93 @@ const Result: React.FC = () => {
     }
   };
 
+  // 1. Diagnóstico de Prontidão para Autonomia (IPA)
   const getIPADiagnostic = (score: number) => {
     if (score >= 4.0) return {
-      status: "Perfil Autogerido",
-      report: "Indivíduo com alta disciplina interna e senso de ownership. Define o 'como' fazer além do 'o que'.",
-      action: "Conceder liberdade total de agenda. Evitar microgestão e reuniões de status desnecessárias."
+      status: "Indivíduo Autodirigido",
+      report: "Motivado intrinsecamente, autônomo com alta disciplina interna e senso de ownership. Define 'o que' e o 'como' fazer com maestria.",
+      action: "Conceder liberdade total de agenda e definição de métodos. Compartilhar regras e restrições. Evitar reuniões de status desnecessárias."
     };
     if (score < 3.0) return {
       status: "Dependência de Estrutura",
-      report: "Risco de procrastinação na ausência de cobrança direta. Necessita de metas externas claras.",
-      action: "Recomendado mentor de apoio e treinamento em metodologias de produtividade (ex: GTD)."
+      report: "Necessita de balizamento externo para evitar procrastinação. Sente-se perdido sem uma liderança direta.",
+      action: "Recomendado 'Job Crafting Assistido' e treinamento em metodologias de produtividade (ex: GTD)."
     };
     return {
-      status: "Equilíbrio em Autonomia",
-      report: "Transita bem entre autonomia e supervisão conforme o contexto do projeto.",
-      action: "Manter alinhamentos periódicos focados em resultados, não no micro-processo."
+      status: "Autonomia em Desenvolvimento",
+      report: "Opera bem com independência moderada, mas valoriza marcos de validação periódicos.",
+      action: "Manter alinhamentos focados em resultados, incentivando a tomada de decisão gradual."
     };
   };
 
+  // 2. Diagnóstico de Resiliência e Carga Cognitiva (IRCC)
   const getIRCCDiagnostic = (score: number) => {
     if (score >= 4.0) return {
       status: "Estabilidade no Caos",
-      report: "Alta resiliência emocional. Lida bem com a falta de manuais e decisões lentas por consenso.",
-      action: "Alocar em projetos Greenfield ou áreas em construção. Ótimo facilitador em crises."
+      report: "Alta resiliência emocional e tolerância à ambiguidade. Atua como porto seguro em cenários de incerteza.",
+      action: "Ideal para projetos 'Greenfield' ou áreas em construção. Atuar como facilitador em crises."
     };
     if (score < 3.0) return {
       status: "Vulnerabilidade à Ambiguidade",
-      report: "Risco de burnout em sistemas de autogestão/horizontais. A falta de hierarquia é percebida como insegurança.",
-      action: "Criar 'ilhas de previsibilidade' com processos escritos e acordos de trabalho bem definidos."
+      report: "Risco de estresse elevado e burnout em sistemas sem hierarquia. A incerteza gera insegurança paralisante.",
+      action: "Criar 'ilhas de previsibilidade' com processos escritos e acordos de trabalho claros."
     };
     return {
       status: "Resiliência Adaptativa",
-      report: "Suporta níveis moderados de incerteza, mas prefere algum nível de balizamento estrutural.",
+      report: "Suporta mudanças de rumo, desde que existam marcos de segurança estrutural.",
       action: "Fornecer documentação clara enquanto incentiva a participação em decisões coletivas."
     };
   };
 
+  // 3. Diagnóstico de Inteligência Social e Ética (IISE)
   const getIISEDiagnostic = (score: number) => {
     if (score >= 4.0) return {
       status: "Conector Cultural",
-      report: "Facilita a aprendizagem organizacional sendo transparente com erros. Coordena pares naturalmente.",
-      action: "Ideal para papéis de mediação, onboarding e guardião da cultura (Feedback 360º)."
+      report: "Promotor de confiança e transparência radical. Coordena pares naturalmente através da empatia.",
+      action: "Ideal para papéis de mediação, onboarding de novos membros e guardião da cultura."
     };
     if (score < 3.0) return {
       status: "Perfil de 'Silo'",
-      report: "Tendência a retenção de informação ou dificuldade em trabalho síncrono com o time.",
-      action: "Treinamento em Comunicação Não-Violenta (CNV) e reforço em transparência radical."
+      report: "Tendência à retenção de informação ou dificuldade em lidar com a exposição de erros em público.",
+      action: "Treinamento em Comunicação Não-Violenta (CNV) e dinâmicas de feedback focado em segurança psicológica."
     };
     return {
-      status: "Colaborador Social",
-      report: "Bom nível de transparência e cooperação, atuando bem em squads multidisciplinares.",
-      action: "Incentivar a exposição de aprendizados e melhorias de processo em grupo."
+      status: "Colaborador Cooperativo",
+      report: "Bom nível de colaboração, atuando bem em squads quando os papéis estão definidos.",
+      action: "Incentivar a coordenação lateral direta sem a necessidade de mediadores."
     };
+  };
+
+  const getSubQuadrantDescription = (axisX: number, axisY: number) => {
+    const isAutogestao = axisX >= 3.0;
+    const isEquipe = axisY >= 3.0;
+
+    // Limiares para sub-quadrantes 'A' (Extremos)
+    const isExtremeX = axisX > 4.2 || axisX < 1.8;
+    const isExtremeY = axisY > 4.2 || axisY < 1.8;
+
+    if (isAutogestao && isEquipe) {
+      return (isExtremeX || isExtremeY)
+        ? "Lugar de Potência: Mestre em mediação e design de sistemas sociais autogeridos. Ideal para fundar ou liderar a evolução da governança."
+        : "Lugar de Potência: Focado em sincronia grupal e execução síncrona em times ágeis ou squads interdependentes.";
+    }
+
+    if (isAutogestao && !isEquipe) {
+      return (isExtremeX || isExtremeY)
+        ? "Lugar de Potência: Altíssima agência solo e inovação. Ideal para gerir seus próprios contratos de entrega e novos negócios."
+        : "Lugar de Potência: Profundidade técnica e autonomia com preferência por interfaces assíncronas e baixa necessidade de reuniões.";
+    }
+
+    if (!isAutogestao && isEquipe) {
+      return (isExtremeX || isExtremeY)
+        ? "Lugar de Potência: Coesão social e empatia profunda. Floresce com suporte de liderança estruturante e foco no bem-estar do grupo."
+        : "Lugar de Potência: Excelente em organizar fluxos de trabalho e pessoas dentro de metas e hierarquias claras.";
+    }
+
+    // Tradicional + Individual
+    return (isExtremeX || isExtremeY)
+      ? "Lugar de Potência: Manutenção da ordem e fidelidade absoluta a protocolos rígidos, hierarquias e segurança institucional."
+      : "Lugar de Potência: Precisão técnica e confiabilidade em escopos bem delimitados e departamentos estruturados.";
   };
 
   const handleCopyUrl = () => {
@@ -297,17 +332,72 @@ const Result: React.FC = () => {
             <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
               <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
                 <FileText size={18} className="text-primary" />
-                Lugar Ideal na Organização
+                Lugar de Potência na Organização
               </h3>
+
               <OrthogonalMatrix x={data.axisX} y={data.axisY} userName={data.name} />
-              <div className="mt-6 p-4 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
-                <p className="text-sm font-bold text-primary">{data.classification}</p>
-                <p className="text-xs text-slate-500 mt-1 italic">
-                  {data.axisX >= 3 && data.axisY >= 3 ? "O Facilitador: Desenvolver habilidades de facilitação e governança dinâmica." :
-                    data.axisX >= 3 && data.axisY < 3 ? "O Especialista: Focar em contratos de responsabilidade clara e autonomia técnica." :
-                      data.axisX < 3 && data.axisY >= 3 ? "O Gestor Tradicional: Necessita 'desaprender' controle em ambientes de autogestão." :
-                        "O Executor: Alocar em tarefas técnicas repetitivas com manuais rígidos."}
-                </p>
+
+              <div className="mt-6 p-5 bg-slate-50 rounded-2xl border border-dashed border-slate-200 shadow-sm">
+                <div className="flex flex-col gap-2">
+                  {/* Cabeçalho do Diagnóstico */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase tracking-wider font-bold text-slate-400">
+                      Diagnóstico de Alocação Estrutural
+                    </span>
+                    <div className="flex gap-1">
+                      <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold ${data.axisX >= 3 ? 'bg-teal-100 text-teal-700' : 'bg-slate-200 text-slate-700'}`}>
+                        {data.axisX >= 3 ? "AUTOGESTÃO" : "TRADICIONAL"}
+                      </span>
+                      <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold ${data.axisY >= 3 ? 'bg-blue-100 text-blue-700' : 'bg-indigo-100 text-indigo-700'}`}>
+                        {data.axisY >= 3 ? "EQUIPE" : "INDIVIDUAL"}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Nome do Sub-quadrante (Título) */}
+                  <p className="text-md font-bold text-primary">
+                    {(() => {
+                      const isExtreme = data.axisX > 4.2 || data.axisX < 1.8 || data.axisY > 4.2 || data.axisY < 1.8;
+                      if (data.axisX >= 3 && data.axisY >= 3) return isExtreme ? "O Facilitador de Governança" : "O Colaborador de Equipe";
+                      if (data.axisX >= 3 && data.axisY < 3) return isExtreme ? "O Empreendedor Interno" : "O Especialista Focado";
+                      if (data.axisX < 3 && data.axisY >= 3) return isExtreme ? "O Harmonizador de Clima" : "O Líder Operacional";
+                      return isExtreme ? "O Guardião da Norma" : "O Especialista de Processo";
+                    })()}
+                  </p>
+
+                  {/* Descrição Detalhada (Lugar de Potência) */}
+                  <p className="text-xs text-slate-600 leading-relaxed italic border-l-2 border-primary/20 pl-3">
+                    {(() => {
+                      const isExtreme = data.axisX > 4.2 || data.axisX < 1.8 || data.axisY > 4.2 || data.axisY < 1.8;
+
+                      // Alta Autogestão + Equipe
+                      if (data.axisX >= 3 && data.axisY >= 3) {
+                        return isExtreme
+                          ? "Mestre em mediação e design de sistemas sociais. Ideal para fundar ou liderar a evolução da governança e cultura de autogestão."
+                          : "Focado em sincronia grupal e execução síncrona em times ágeis ou squads interdependentes.";
+                      }
+
+                      // Alta Autogestão + Individual
+                      if (data.axisX >= 3 && data.axisY < 3) {
+                        return isExtreme
+                          ? "Altíssima agência solo e inovação. Ideal para gerir seus próprios contratos de entrega e projetos disruptivos."
+                          : "Profundidade técnica e autonomia com preferência por interfaces assíncronas e baixa necessidade de reuniões sociais.";
+                      }
+
+                      // Tradicional + Equipe
+                      if (data.axisX < 3 && data.axisY >= 3) {
+                        return isExtreme
+                          ? "Coesão social e empatia profunda. Floresce com suporte de liderança estruturante e foco total no bem-estar do grupo."
+                          : "Excelente em organizar fluxos de trabalho e pessoas dentro de metas hierárquicas e departamentos claros.";
+                      }
+
+                      // Tradicional + Individual
+                      return isExtreme
+                        ? "Manutenção da ordem e fidelidade absoluta a protocolos rígidos, hierarquias e máxima segurança institucional."
+                        : "Precisão técnica e confiabilidade em escopos bem delimitados, processos repetitivos e departamentos estruturados.";
+                    })()}
+                  </p>
+                </div>
               </div>
             </div>
 

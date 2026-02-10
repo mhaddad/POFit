@@ -32,11 +32,12 @@ export interface ResultData {
   axisX: number; // Management
   axisY: number; // Work Dynamics
   aiReport?: string;
+  subQuadrant?: string;
 }
 
 export enum FitClassification {
-  TEAL_COLLABORATIVE = "Perfil Colaborativo Autogestão",
-  TEAL_INDEPENDENT = "Perfil Independente Autogestão",
+  TEAL_COLLABORATIVE = "Perfil Autogestão Colaborativo",
+  TEAL_INDEPENDENT = "Perfil Autogestão Individual",
   CORPORATE_STRUCTURED = "Perfil Corporativo Estruturado",
-  SPECIALIST_ISOLATED = "Perfil Especialista Isolado"
+  SPECIALIST_ISOLATED = "Perfil Especialista Independente"
 }
