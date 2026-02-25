@@ -10,7 +10,7 @@ const Assessment: React.FC = () => {
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [isFinished, setIsFinished] = useState(false);
 
-  const questionsPerStep = 10;
+  const questionsPerStep = 12;
   const currentQuestions = QUESTIONS.slice((step - 1) * questionsPerStep, step * questionsPerStep);
 
   const handleAnswer = (questionId: number, value: number) => {

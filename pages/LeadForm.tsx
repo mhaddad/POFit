@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import { User, Mail, ShieldCheck, Loader2 } from 'lucide-react';
-import { ResultData, BlockScores, FitClassification } from '../types';
+import { ResultData, BlockScores } from '../types';
 import { QUESTIONS } from '../constants';
+import { calculateProfile } from '../utils/calculations';
 
 interface LeadFormProps {
   answers: Record<number, number>;
@@ -16,7 +17,7 @@ const LeadForm: React.FC<LeadFormProps> = ({ answers }) => {
 
   const calculateResults = (): ResultData => {
     const blockScores: BlockScores = {};
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 12; i++) {
       const blockKey = `B${i}`;
       const qIds = QUESTIONS.filter(q => q.block === blockKey).map(q => q.id);
       const sum = qIds.reduce((acc, id) => acc + (answers[id] || 0), 0);
@@ -27,19 +28,15 @@ const LeadForm: React.FC<LeadFormProps> = ({ answers }) => {
     const ircc = (blockScores.B6 + blockScores.B7 + blockScores.B8) / 3;
     const iise = (blockScores.B3 + blockScores.B5 + blockScores.B9) / 3;
 
-    // Axis X (Gestão): B1, B2, B4, B5, B6, B7, B8, B10
-    const axisX = (blockScores.B1 + blockScores.B2 + blockScores.B4 + blockScores.B5 + blockScores.B6 + blockScores.B7 + blockScores.B8 + blockScores.B10) / 8;
+    // Axis X (Gestão): IPA
+    const axisX = ipa;
     // Axis Y (Trabalho): B3, B9
     const axisY = (blockScores.B3 + blockScores.B9) / 2;
 
     // Fix: Explicitly cast Object.values and type reduce parameters to resolve unknown inference error on line 35
-    const overallScore = (Object.values(answers) as number[]).reduce((a: number, b: number) => a + b, 0) / 30;
+    const overallScore = (Object.values(answers) as number[]).reduce((a: number, b: number) => a + b, 0) / 36;
 
-    let classification = "";
-    if (axisX >= 3 && axisY >= 3) classification = FitClassification.TEAL_COLLABORATIVE;
-    else if (axisX >= 3 && axisY < 3) classification = FitClassification.TEAL_INDEPENDENT;
-    else if (axisX < 3 && axisY >= 3) classification = FitClassification.CORPORATE_STRUCTURED;
-    else classification = FitClassification.SPECIALIST_ISOLATED;
+    const profileRes = calculateProfile(axisX, axisY, ipa, ircc, iise, blockScores);
 
     return {
       id: crypto.randomUUID(),
@@ -47,7 +44,10 @@ const LeadForm: React.FC<LeadFormProps> = ({ answers }) => {
       name,
       email,
       overallScore: (overallScore / 5) * 100,
-      classification,
+      classification: profileRes.quadrant,
+      subQuadrant: profileRes.profile,
+      riskPersonas: profileRes.personas,
+      designFlags: profileRes.flags,
       blockScores,
       ipa,
       ircc,

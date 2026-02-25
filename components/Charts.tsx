@@ -21,7 +21,9 @@ export const CompetencyRadar: React.FC<CompetencyRadarProps> = ({ scores }) => {
     B7: "Estabilidade",
     B8: "Consenso",
     B9: "Coordenação",
-    B10: "Iniciativa"
+    B10: "Iniciativa",
+    B11: "Processamento e Foco",
+    B12: "Organização Interna"
   };
 
   const data = Object.keys(scores).map(key => ({

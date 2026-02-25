@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 .env
+business_requirements
 
 # Editor directories and files
 .vscode/*

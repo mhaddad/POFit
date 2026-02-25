@@ -2,7 +2,7 @@
 export interface Question {
   id: number;
   text: string;
-  block: string; // B1 to B10
+  block: string; // B1 to B12
 }
 
 export interface AssessmentState {
@@ -33,11 +33,6 @@ export interface ResultData {
   axisY: number; // Work Dynamics
   aiReport?: string;
   subQuadrant?: string;
-}
-
-export enum FitClassification {
-  TEAL_COLLABORATIVE = "Perfil Autogestão Colaborativo",
-  TEAL_INDEPENDENT = "Perfil Autogestão Individual",
-  CORPORATE_STRUCTURED = "Perfil Corporativo Estruturado",
-  SPECIALIST_ISOLATED = "Perfil Especialista Independente"
+  riskPersonas?: string[];
+  designFlags?: string[];
 }

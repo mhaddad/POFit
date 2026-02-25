@@ -7,79 +7,138 @@ export const generateAIReport = async (data: ResultData): Promise<string> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
   const prompt = `
-    Você é um consultor de RH sênior especializado em Organizações Teal, Autogestão e Psicometria Organizacional.
-    Analise os resultados do Person-Organization Fit para ${data.name}.
+    Você é um Consultor de RH Sênior especializado em Organizações Autogeridas, Design Organizacional e Design Universal Cognitivo.
 
-    ### CONTEXTO METODOLÓGICO
-    A análise baseia-se em uma matriz ortogonal (Eixo X: Estilo de Gestão | Eixo Y: Dinâmica de Trabalho). 
-    O sistema identifica o "Lugar de Potência" do respondente em 8 sub-quadrantes baseados na distância das notas em relação ao centro (3.0):
-    - Alta Autogestão + Alta Equipe: Facilitador de Governança (Extremo) ou Colaborador de Squad (Equilibrado).
-    - Alta Autogestão + Alto Individual: Empreendedor Interno (Extremo) ou Especialista Focado (Equilibrado).
-    - Baixa Autogestão + Alta Equipe: Harmonizador de Clima (Extremo) ou Líder Operacional (Equilibrado).
-    - Baixa Autogestão + Alto Individual: Guardião da Norma (Extremo) ou Especialista de Processo (Equilibrado).
+    Sua missão é analisar os resultados do método Person-Organization Fit (P-O Fit) para ${data.name} e gerar um relatório estratégico de alocação e potência.
 
-    ### CRITÉRIOS DIAGNÓSTICOS (Dados de Entrada)
-    1. IPA (Prontidão para Autonomia): Pontuação ${data.ipa.toFixed(1)}/5.0. 
-       - Blocos: B1 (Gestão e Autoridade), B4 (Execução e Autonomia), B10 (Iniciativa e Propósito).
-       - > 4.0: Perfil "Indivíduo Autodirigido" (motivação intrínseca e autonomia com alto ownership).
-       - < 3.0: Dependência de estrutura externa (Necessidade de balizamento e marcos de segurança).
-    
-    2. IRCC (Resiliência e Carga Cognitiva): Pontuação ${data.ircc.toFixed(1)}/5.0.
-       - Blocos: B6 (Decisão e Incerteza), B7 (Resiliência e Responsabilidade), B8 (Flexibilidade e Consenso).
-       - > 4.0: Estabilidade no caos (Alta tolerância à ambiguidade e decisões coletivas).
-       - < 3.0: Vulnerabilidade ao estresse por ambiguidade (Risco de burnout em sistemas fluidos).
-    
-    3. IISE (Inteligência Social e Ética): Pontuação ${data.iise.toFixed(1)}/5.0.
-       - Blocos: B3 (Colaboração e Interação), B5 (Transparência e Informação), B9 (Coordenação Lateral e Apoio).
-       - > 4.0: Conector cultural e promotor de confiança radical.
-       - < 3.0: Perfil de "Silo" ou retenção estratégica de informação.
+    # CONTEXTO METODOLÓGICO
 
-    4. ALOCAÇÃO ESTRUTURAL (Matriz Ortogonal de 8 Sub-quadrantes):
-       - Eixo X (Gestão): ${data.axisX.toFixed(1)} (Tradicional < 3.0 > Autogestão)
-       - Eixo Y (Trabalho): ${data.axisY.toFixed(1)} (Individual < 3.0 > Equipe)
-       - Sub-quadrante Identificado: ${data.subQuadrant} (Define o "Lugar de Potência" específico).
+    A análise baseia-se em uma matriz ortogonal:
 
-    5. SCORES POR BLOCO (1.0 a 5.0):
-       ${JSON.stringify(data.blockScores)}
-       (Mapeamento: B1:Autoridade, B2:Papéis, B3:Amabilidade, B4:Disciplina, B5:Transparência, B6:Ambiguidade, B7:Estabilidade, B8:Consenso, B9:Coordenação, B10:Iniciativa)
+    Eixo X (Gestão): Tradicional (< 3.0) | Autogestão (> 3.0)  
+    Eixo Y (Dinâmica): Individual (< 3.0) | Equipe (> 3.0)
 
-    ### INSTRUÇÕES DE FORMATO (Markdown - Apenas 4 seções):
+    O sistema identifica o Lugar de Potência entre 16 Arquétipos Oficiais.
 
-    ### 1. RESUMO EXECUTIVO E LUGAR DE POTÊNCIA
-    Identifique o sub-quadrante específico e descreva o ambiente onde o respondente gera mais valor. 
-    - Se Autogestão (Alta X): Cite exemplos como MorningStar (Individual) ou Buurtzorg/Ateliê de Software (Equipe).
-    - Se Tradicional (Baixa X): Destaque a necessidade de marcos de segurança, hierarquia clara ou silos estruturados.
+    # PERFIS OFICIAIS (ATUALIZADOS)
 
-    ### 2. DIAGNÓSTICO DOS ÍNDICES CRÍTICOS
-    - **Índice de Prontidão para Autonomia (IPA):** Avalie a capacidade de autodireção. Analise o equilíbrio entre Iniciativa (B10) e Disciplina (B4).
-    - **Índice de Resiliência e Carga Cognitiva (IRCC):** Avalie a estabilidade emocional (B7) frente à ambiguidade (B6) e a paciência para processos de consenso (B8).
-    - **Índice de Inteligência Social e Ética (IISE):** Determine se é um "Conector Cultural" ou se possui tendência a atuar de forma isolada (Silos).
+    ## Quadrante 1 — Autogestão Colaborativa
+    1.1 Facilitador Sistêmico  
+    1.2 Líder Facilitador  
+    1.3 Orquestrador de Times  
+    1.4 Inovador Criativo  
 
-    ### 3. PLANO DE AÇÃO PERSONALIZADO (PERSONAS DE RISCO)
-    Analise conflitos entre blocos e recomende intervenções para:
-    - Alta Iniciativa (B10) + Baixa Amabilidade (B3): "O Trator Autônomo" (Foco: Escuta ativa e papéis de especialista).
-    - Alta Iniciativa (B10) + Baixa Disciplina (B4): "O Criativo Caótico" (Foco: Gestão Visual/Kanban).
-    - Alta Abertura (B2) + Baixa Estabilidade (B7): "O Inovador Frágil" (Foco: Ambiente Sandbox).
-    - Baixa Transparência (B5): "Retenção de Informação" (Foco: Protocolos de Accountability).
+    ## Quadrante 2 — Autogestão Independente
+    2.1 Intraempreendedor Estratégico  
+    2.2 Executor de Alto Impacto  
+    2.3 Especialista Autônomo  
+    2.4 Especialista Analítico  
 
-    ### 4. RECOMENDAÇÕES DE DESENVOLVIMENTO
-    Sugira 3 práticas pragmáticas (ex: Shadowing de Crise, Mentoria de Autoliderança, Treinamento em CNV ou Redesign de Papel) baseadas nos menores scores dos blocos.
+    ## Quadrante 3 — Gestão Tradicional Colaborativa
+    3.1 Coordenador de Operações  
+    3.2 Coordenador de Conexões  
+    3.3 Coordenador de Fluxo  
+    3.4 Coordenador de Suporte  
 
-    ### DIRETRIZES DE ESTILO:
-    - Profissional, analítico e encorajador.
-    - Não utilize a palavra Autoengrenagem. Prefira Autogerido.
-    - Seja conciso e objetivo, consolidando as informações.
-    - Use terminologia moderna (Autogestão, Autodireção, Auto-organização,Coordenação Compartilhada, Liderança Emergente).
-    - Foco em "Lugar de Potência" (onde o indivíduo gera mais valor) em vez de apenas "pontos fracos".
-    - Não inclua nenhum texto de introdução antes dos 4 tópicos. Apenas os 4 tópicos.
-    - Responda em Português do Brasil.
-`;
+    ## Quadrante 4 — Gestão Tradicional Individualizada
+    4.1 Especialista da Conformidade  
+    4.2 Especialista da Integridade  
+    4.3 Especialista de Sustentação  
+    4.4 Especialista em Processos  
+
+    # DADOS DE ENTRADA
+
+    IPA: ${data.ipa.toFixed(1)}  
+    IRCC: ${data.ircc.toFixed(1)}  
+    IISE: ${data.iise.toFixed(1)}  
+
+    Eixo X: ${data.axisX.toFixed(1)}  
+    Eixo Y: ${data.axisY.toFixed(1)}  
+
+    Perfil identificado: ${data.subQuadrant}  
+    Sinais de Design Universal: ${data.designFlags && data.designFlags.length > 0 ? data.designFlags.join(', ') : 'Nenhum'}
+    Personas de Risco: ${data.riskPersonas && data.riskPersonas.length > 0 ? data.riskPersonas.join(', ') : 'Nenhuma'}
+
+    Blocos:
+    ${JSON.stringify(data.blockScores)}
+
+    # ESTADOS OFICIAIS DOS ÍNDICES
+
+    ## IPA — Índice de Prontidão para Autonomia
+    - Estado A: Autonomia Consolidada  
+    - Estado B: Autonomia Funcional  
+    - Estado C: Autonomia com Suporte Estrutural  
+    - Estado D: Heteronomia de Execução  
+    - Estado E: Autonomia Estratégica Exponencial  
+
+    ## IRCC — Índice de Resiliência e Carga Cognitiva
+    - Estado A: Resiliência Avançada  
+    - Estado B: Resiliência Padrão  
+    - Estado C: Resiliência Estrutural  
+    - Estado D: Vulnerabilidade ao Caos  
+    - Estado E: Resiliência Sistêmica  
+
+    ## IISE — Índice de Inteligência Social e Ética
+    - Estado A: Conector Cultural  
+    - Estado B: Colaborador Cooperativo  
+    - Estado C: Colaborador Assíncrono  
+    - Estado D: Colaborador Seletivo  
+    - Estado E: Colaborador Ético  
+
+    # PERSONAS DE RISCO (ATUALIZADAS)
+    - Espectador Passivo  
+    - Sabotador de Transparência  
+    - Especialista Frágil  
+    - Trator Autoritário  
+    - Idealista Desconectado  
+    - Camaleão Social  
+
+    # MODELOS DE ONBOARDING
+    - Modelo A: Imersão em Autonomia  
+    - Modelo B: Estrutura e Segurança  
+    - Modelo C: Integração de Baixo Ruído  
+    - Modelo D: Integração de Vínculo  
+
+    # FORMATO OBRIGATÓRIO DO RELATÓRIO (APENAS 4 SEÇÕES)
+
+    ## 1. O Lugar de Potência
+    - Identifique o arquétipo exato.
+    - Descreva a essência funcional.
+    - Explique o ambiente ideal de alta performance.
+    - Se Alta Autogestão → citar referências como MorningStar ou Buurtzorg.
+    - Se Gestão Tradicional → enfatizar marcos, previsibilidade e estrutura.
+
+    ## 2. Diagnóstico dos Índices (IPA, IRCC e IISE)
+    - Classifique IPA, IRCC e IISE nos Estados Oficiais (identifique com base nos valores).
+    - Aplicar lógica de camada dupla (índice + âncora).
+    - Identificar assinaturas cognitivas relevantes com base nos blocos e Desings Flags.
+    - Indicar riscos de boreout ou sobrecarga.
+
+    ## 3. Manual do Usuário (Onboarding)
+    - Verificar presença de Personas de Risco identificadas e comentar.
+    - Definir modelo de onboarding adequado.
+    - Indicar ajustes de Design Universal caso tenha Design Flags.
+
+    ## 4. Plano de Desenvolvimento (PDI)
+    - Sugerir 3 ações pragmáticas (ex: Redesign de Papel, Mentoria, etc).
+
+    # DIRETRIZES DE ESTILO
+    - Tom analítico, estratégico e empático.
+    - Não utilizar termos clínicos.
+    - Não usar "Autoengrenagem" ou termos e expressões da gestão mecanicista.
+    - Usar "Autogerido" ou "Autodirigido".
+    - Não incluir saudações.
+    - Iniciar direto na seção 1.
+    - Responder em Português do Brasil.
+  `;
 
   try {
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: prompt,
-      temperature: 0.7,
+      config: {
+        temperature: 0.7,
+      },
     });
     return response.text || "Não foi possível gerar o relatório no momento.";
   } catch (error) {

@@ -66,93 +66,93 @@ const Result: React.FC = () => {
   };
 
   // 1. Diagnóstico de Prontidão para Autonomia (IPA)
-  const getIPADiagnostic = (score: number) => {
-    if (score >= 4.0) return {
-      status: "Indivíduo Autodirigido",
-      report: "Motivado intrinsecamente, autônomo com alta disciplina interna e senso de ownership. Define 'o que' e o 'como' fazer com maestria.",
-      action: "Conceder liberdade total de agenda e definição de métodos. Compartilhar regras e restrições. Evitar reuniões de status desnecessárias."
+  const getIPADiagnostic = (score: number, b10: number, b2: number) => {
+    if (score < 3.0 && b10 > 3.5) return {
+      status: "Autonomia com Suporte Estrutural",
+      report: "Vontade de realizar é alta, mas a organização executiva oscila. Proativo e cheio de ideias, porém enfrenta dificuldades em priorizar sem um 'andaime' externo.",
+      action: "Fornecer ferramentas visuais de controle (como Kanbans) e metas de curtíssimo prazo."
     };
-    if (score < 3.0) return {
-      status: "Dependência de Estrutura",
-      report: "Necessita de balizamento externo para evitar procrastinação. Sente-se perdido sem uma liderança direta.",
-      action: "Recomendado 'Job Crafting Assistido' e treinamento em metodologias de produtividade (ex: GTD)."
+    if (score < 3.0 && b10 <= 3.5) return {
+      status: "Heteronomia de Execução",
+      report: "Sente-se inseguro em ambientes de autonomia radical. Prefere que as prioridades e o passo-a-passo venham de uma autoridade externa.",
+      action: "Escopo fechado e supervisão presente. Entregará qualidade quando o caminho estiver pavimentado."
+    };
+    if (score > 4.5 && b2 > 4.5) return {
+      status: "Autonomia Estratégica Exponencial",
+      report: "Agência máxima. Processa informações em velocidade superior à média. Autonomia intelectual e disruptiva.",
+      action: "Garantir espaço de manobra e acesso a problemas complexos. Maior desafio é evitar o tédio."
+    };
+    if (score >= 4.0) return {
+      status: "Autonomia Consolidada",
+      report: "Perfil de alta agência. Organiza o próprio fluxo de trabalho sem esperar ordens, com previsibilidade e responsabilidade.",
+      action: "Conceder liberdade e confiança no acompanhamento de resultados. Dispensa automicrogestão."
     };
     return {
-      status: "Autonomia em Desenvolvimento",
-      report: "Opera bem com independência moderada, mas valoriza marcos de validação periódicos.",
-      action: "Manter alinhamentos focados em resultados, incentivando a tomada de decisão gradual."
+      status: "Autonomia Funcional",
+      report: "Transita bem entre a iniciativa pessoal e o seguimento de orientações estabelecidas. Valoriza o consenso do grupo.",
+      action: "Marcos de alinhamento periódicos ou metas bem definidas servem como um ótimo guia."
     };
   };
 
   // 2. Diagnóstico de Resiliência e Carga Cognitiva (IRCC)
-  const getIRCCDiagnostic = (score: number) => {
-    if (score >= 4.0) return {
-      status: "Estabilidade no Caos",
-      report: "Alta resiliência emocional e tolerância à ambiguidade. Atua como porto seguro em cenários de incerteza.",
-      action: "Ideal para projetos 'Greenfield' ou áreas em construção. Atuar como facilitador em crises."
+  const getIRCCDiagnostic = (score: number, b7: number, b6: number) => {
+    if (score < 3.0 && b7 > 4.0) return {
+      status: "Resiliência Estrutural",
+      report: "Responsabilidade altíssima, mas tolerância baixa à ambiguidade social. Sofre se as regras do jogo mudam sem aviso.",
+      action: "Criar 'Ilhas de Previsibilidade' baseadas em acordos escritos e literais. Evitar subentendidos."
     };
-    if (score < 3.0) return {
-      status: "Vulnerabilidade à Ambiguidade",
-      report: "Risco de estresse elevado e burnout em sistemas sem hierarquia. A incerteza gera insegurança paralisante.",
-      action: "Criar 'ilhas de previsibilidade' com processos escritos e acordos de trabalho claros."
+    if (score < 3.0 && b7 <= 4.0) return {
+      status: "Vulnerabilidade ao Caos",
+      report: "Baixa tolerância a ambientes fluidos ou de alta pressão. Risco de esgotamento ao lidar com mudanças constantes.",
+      action: "Requer design de trabalho estável, funções de rotina e proteção contra tensões organizacionais."
+    };
+    if (score > 4.5 && b6 > 4.5) return {
+      status: "Resiliência Sistêmica",
+      report: "Processamento de alta voltagem. Entende padrões sistêmicos na complexidade absoluta e não se abala com crises.",
+      action: "Ideal para arquitetar mudanças estruturais, mas pode necessitar de paciência com o ritmo do grupo."
+    };
+    if (score >= 4.0) return {
+      status: "Resiliência Avançada",
+      report: "Musculatura emocional para o incerto. Acalma o time na crise e itera soluções rapidamente quando um plano falha.",
+      action: "Trata o imprevisto como dado e tem resiliência fluida a mudanças de contexto."
     };
     return {
-      status: "Resiliência Adaptativa",
-      report: "Suporta mudanças de rumo, desde que existam marcos de segurança estrutural.",
-      action: "Fornecer documentação clara enquanto incentiva a participação em decisões coletivas."
+      status: "Resiliência Padrão",
+      report: "Resiliência saudável. Suporta pressões mas prefere que as mudanças ocorram com mínima justificativa lógica e transparência.",
+      action: "Atua como filtro de bom senso e âncora do time em adaptações moderadas."
     };
   };
 
   // 3. Diagnóstico de Inteligência Social e Ética (IISE)
-  const getIISEDiagnostic = (score: number) => {
+  const getIISEDiagnostic = (score: number, b5: number) => {
+    if (score < 3.0 && b5 > 4.0) return {
+      status: "Colaborador Assíncrono",
+      report: "Ética e integridade máximas, mas baixa necessidade de interação social. Colaboração é técnica e factual.",
+      action: "Permitir o 'Deep Work' via ferramentas assíncronas (Notion, Slack). Evitar reuniões desnecessárias."
+    };
+    if (score < 3.0 && b5 <= 4.0) return {
+      status: "Colaborador Seletivo",
+      report: "Tendência a reter informações como segurança ou poder. Apresenta riscos de formar gargalos de transparência.",
+      action: "Foco profundo em alinhamento ético, protocolos de prestação de contas e acordos de transparência."
+    };
+    if (b5 > 4.8) return {
+      status: "Colaborador Ético",
+      report: "Vigilância ética extrema. Detecta hipocrisias na governança. Protege o sistema contra perda de integridade.",
+      action: "Ideal para painéis de ética e controle de qualidade. Pode ser inflexível com meias-verdades."
+    };
     if (score >= 4.0) return {
       status: "Conector Cultural",
-      report: "Promotor de confiança e transparência radical. Coordena pares naturalmente através da empatia.",
-      action: "Ideal para papéis de mediação, onboarding de novos membros e guardião da cultura."
-    };
-    if (score < 3.0) return {
-      status: "Perfil de 'Silo'",
-      report: "Tendência à retenção de informação ou dificuldade em lidar com a exposição de erros em público.",
-      action: "Treinamento em Comunicação Não-Violenta (CNV) e dinâmicas de feedback focado em segurança psicológica."
+      report: "Promotor de confiança radical e transparência. Lubrificante social que reduz atrito entre equipes e círculos.",
+      action: "Essencial para espalhar a mentalidade Teal, mediar trocas e integrar novas pessoas na cultura."
     };
     return {
       status: "Colaborador Cooperativo",
-      report: "Bom nível de colaboração, atuando bem em squads quando os papéis estão definidos.",
-      action: "Incentivar a coordenação lateral direta sem a necessidade de mediadores."
+      report: "Perfil equilibrado. Interage bem em squads, evita conflitos desnecessários e segue as normas sociais da equipe.",
+      action: "Garante a estabilidade no clima e cumpre bem com papéis interdependentes."
     };
   };
 
-  const getSubQuadrantDescription = (axisX: number, axisY: number) => {
-    const isAutogestao = axisX >= 3.0;
-    const isEquipe = axisY >= 3.0;
 
-    // Limiares para sub-quadrantes 'A' (Extremos)
-    const isExtremeX = axisX > 4.2 || axisX < 1.8;
-    const isExtremeY = axisY > 4.2 || axisY < 1.8;
-
-    if (isAutogestao && isEquipe) {
-      return (isExtremeX || isExtremeY)
-        ? "Lugar de Potência: Mestre em mediação e design de sistemas sociais autogeridos. Ideal para fundar ou liderar a evolução da governança."
-        : "Lugar de Potência: Focado em sincronia grupal e execução síncrona em times ágeis ou squads interdependentes.";
-    }
-
-    if (isAutogestao && !isEquipe) {
-      return (isExtremeX || isExtremeY)
-        ? "Lugar de Potência: Altíssima agência solo e inovação. Ideal para gerir seus próprios contratos de entrega e novos negócios."
-        : "Lugar de Potência: Profundidade técnica e autonomia com preferência por interfaces assíncronas e baixa necessidade de reuniões.";
-    }
-
-    if (!isAutogestao && isEquipe) {
-      return (isExtremeX || isExtremeY)
-        ? "Lugar de Potência: Coesão social e empatia profunda. Floresce com suporte de liderança estruturante e foco no bem-estar do grupo."
-        : "Lugar de Potência: Excelente em organizar fluxos de trabalho e pessoas dentro de metas e hierarquias claras.";
-    }
-
-    // Tradicional + Individual
-    return (isExtremeX || isExtremeY)
-      ? "Lugar de Potência: Manutenção da ordem e fidelidade absoluta a protocolos rígidos, hierarquias e segurança institucional."
-      : "Lugar de Potência: Precisão técnica e confiabilidade em escopos bem delimitados e departamentos estruturados.";
-  };
 
   const handleCopyUrl = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -170,9 +170,9 @@ const Result: React.FC = () => {
     );
   }
 
-  const ipaDiag = getIPADiagnostic(data.ipa);
-  const irccDiag = getIRCCDiagnostic(data.ircc);
-  const iiseDiag = getIISEDiagnostic(data.iise);
+  const ipaDiag = getIPADiagnostic(data.ipa, data.blockScores['B10'], data.blockScores['B2']);
+  const irccDiag = getIRCCDiagnostic(data.ircc, data.blockScores['B7'], data.blockScores['B6']);
+  const iiseDiag = getIISEDiagnostic(data.iise, data.blockScores['B5']);
 
   return (
     <Layout>
@@ -356,47 +356,16 @@ const Result: React.FC = () => {
 
                   {/* Nome do Sub-quadrante (Título) */}
                   <p className="text-md font-bold text-primary">
-                    {(() => {
-                      const isExtreme = data.axisX > 4.2 || data.axisX < 1.8 || data.axisY > 4.2 || data.axisY < 1.8;
-                      if (data.axisX >= 3 && data.axisY >= 3) return isExtreme ? "O Facilitador de Governança" : "O Colaborador de Equipe";
-                      if (data.axisX >= 3 && data.axisY < 3) return isExtreme ? "O Empreendedor Interno" : "O Especialista Focado";
-                      if (data.axisX < 3 && data.axisY >= 3) return isExtreme ? "O Harmonizador de Clima" : "O Líder Operacional";
-                      return isExtreme ? "O Guardião da Norma" : "O Especialista de Processo";
-                    })()}
+                    {data.subQuadrant || "Perfil Calculado"}
                   </p>
 
                   {/* Descrição Detalhada (Lugar de Potência) */}
-                  <p className="text-xs text-slate-600 leading-relaxed italic border-l-2 border-primary/20 pl-3">
-                    {(() => {
-                      const isExtreme = data.axisX > 4.2 || data.axisX < 1.8 || data.axisY > 4.2 || data.axisY < 1.8;
-
-                      // Alta Autogestão + Equipe
-                      if (data.axisX >= 3 && data.axisY >= 3) {
-                        return isExtreme
-                          ? "Mestre em mediação e design de sistemas sociais. Ideal para fundar ou liderar a evolução da governança e cultura de autogestão."
-                          : "Focado em sincronia grupal e execução síncrona em times ágeis ou squads interdependentes.";
-                      }
-
-                      // Alta Autogestão + Individual
-                      if (data.axisX >= 3 && data.axisY < 3) {
-                        return isExtreme
-                          ? "Altíssima agência solo e inovação. Ideal para gerir seus próprios contratos de entrega e projetos disruptivos."
-                          : "Profundidade técnica e autonomia com preferência por interfaces assíncronas e baixa necessidade de reuniões sociais.";
-                      }
-
-                      // Tradicional + Equipe
-                      if (data.axisX < 3 && data.axisY >= 3) {
-                        return isExtreme
-                          ? "Coesão social e empatia profunda. Floresce com suporte de liderança estruturante e foco total no bem-estar do grupo."
-                          : "Excelente em organizar fluxos de trabalho e pessoas dentro de metas hierárquicas e departamentos claros.";
-                      }
-
-                      // Tradicional + Individual
-                      return isExtreme
-                        ? "Manutenção da ordem e fidelidade absoluta a protocolos rígidos, hierarquias e máxima segurança institucional."
-                        : "Precisão técnica e confiabilidade em escopos bem delimitados, processos repetitivos e departamentos estruturados.";
-                    })()}
-                  </p>
+                  <div className="mt-2 text-xs text-slate-600 leading-relaxed italic border-l-2 border-primary/20 pl-3">
+                    <p>O seu Lugar de Potência baseia-se na interseção única das suas características de processamento, organização, iniciativa e comportamento em contexto de incerteza e regras flexíveis. Nossa Inteligência Artificial gerou um diagnóstico aprofundado baseado na sua avaliação, listado abaixo.</p>
+                    {data.designFlags && data.designFlags.length > 0 && (
+                      <p className="mt-2 font-bold text-slate-500">Sinais de Design Universal: <span className="text-primary font-medium">{data.designFlags.join(', ')}</span></p>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

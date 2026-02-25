@@ -1,7 +1,7 @@
 
 import { supabase } from './supabaseClient';
 import { ResultData } from '../types';
-import { calculateSubQuadrant } from '../utils/calculations';
+import { calculateProfile } from '../utils/calculations';
 
 export const saveAssessment = async (data: ResultData) => {
     const { error } = await supabase
@@ -58,13 +58,15 @@ export const getAssessment = async (id: string) => {
     // but simpler to just return data and handle mapping or just use snake_case in new types.
     // For now, let's assume we map it back to ResultData structure.
 
+    const calc = calculateProfile(data.axis_x, data.axis_y, data.ipa, data.ircc, data.iise, data.block_scores);
+
     const result: ResultData = {
         id: data.id,
         date: data.created_at,
         name: data.name,
         email: data.email,
         overallScore: data.overall_score,
-        classification: data.classification,
+        classification: calc.quadrant,
         blockScores: data.block_scores,
         ipa: data.ipa,
         ircc: data.ircc,
@@ -72,7 +74,9 @@ export const getAssessment = async (id: string) => {
         axisX: data.axis_x,
         axisY: data.axis_y,
         aiReport: data.ai_report,
-        subQuadrant: calculateSubQuadrant(data.axis_x, data.axis_y)
+        subQuadrant: calc.profile,
+        riskPersonas: calc.personas,
+        designFlags: calc.flags
     };
 
     return result;
@@ -89,22 +93,27 @@ export const getAllAssessments = async () => {
         return [];
     }
 
-    return data.map((item: any) => ({
-        id: item.id,
-        date: item.created_at,
-        name: item.name,
-        email: item.email,
-        overallScore: item.overall_score,
-        classification: item.classification,
-        blockScores: item.block_scores,
-        ipa: item.ipa,
-        ircc: item.ircc,
-        iise: item.iise,
-        axisX: item.axis_x,
-        axisY: item.axis_y,
-        aiReport: item.ai_report,
-        subQuadrant: calculateSubQuadrant(item.axis_x, item.axis_y)
-    })) as ResultData[];
+    return data.map((item: any) => {
+        const calc = calculateProfile(item.axis_x, item.axis_y, item.ipa, item.ircc, item.iise, item.block_scores);
+        return {
+            id: item.id,
+            date: item.created_at,
+            name: item.name,
+            email: item.email,
+            overallScore: item.overall_score,
+            classification: calc.quadrant,
+            blockScores: item.block_scores,
+            ipa: item.ipa,
+            ircc: item.ircc,
+            iise: item.iise,
+            axisX: item.axis_x,
+            axisY: item.axis_y,
+            aiReport: item.ai_report,
+            subQuadrant: calc.profile,
+            riskPersonas: calc.personas,
+            designFlags: calc.flags
+        };
+    }) as ResultData[];
 };
 
 export const deleteAssessment = async (id: string) => {
