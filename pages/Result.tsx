@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import Layout from '../components/Layout';
 import { CompetencyRadar, OrthogonalMatrix } from '../components/Charts';
 import { ResultData } from '../types';
+import { POWER_PLACES } from '../constants';
 import { generateAIReport } from '../services/geminiService';
 import {
   Download, Share2, Award, Zap, Brain, Users, Sparkles,
@@ -179,14 +180,6 @@ const Result: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 py-10 space-y-12">
         {/* Profile Hero */}
         <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 flex flex-col md:flex-row items-center gap-10">
-          <div className="relative">
-            <div className="size-40 rounded-full bg-slate-100 flex items-center justify-center border-4 border-white shadow-xl overflow-hidden">
-              <img src={`https://picsum.photos/seed/${data.id}/200`} alt="Avatar" className="size-full object-cover" />
-            </div>
-            <div className="absolute -bottom-2 -right-2 bg-primary text-white p-2 rounded-xl shadow-lg">
-              <Award size={24} />
-            </div>
-          </div>
 
           <div className="flex-grow text-center md:text-left">
             <span className="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full uppercase tracking-widest">
@@ -361,7 +354,7 @@ const Result: React.FC = () => {
 
                   {/* Descrição Detalhada (Lugar de Potência) */}
                   <div className="mt-2 text-xs text-slate-600 leading-relaxed italic border-l-2 border-primary/20 pl-3">
-                    <p>O seu Lugar de Potência baseia-se na interseção única das suas características de processamento, organização, iniciativa e comportamento em contexto de incerteza e regras flexíveis. Nossa Inteligência Artificial gerou um diagnóstico aprofundado baseado na sua avaliação, listado abaixo.</p>
+                    <p>{data.subQuadrant && POWER_PLACES[data.subQuadrant] ? POWER_PLACES[data.subQuadrant] : "O seu Lugar de Potência baseia-se na interseção única das suas características de processamento, organização, iniciativa e comportamento em contexto de incerteza e regras flexíveis. Nossa Inteligência Artificial gerou um diagnóstico aprofundado baseado na sua avaliação."}</p>
                     {data.designFlags && data.designFlags.length > 0 && (
                       <p className="mt-2 font-bold text-slate-500">Sinais de Design Universal: <span className="text-primary font-medium">{data.designFlags.join(', ')}</span></p>
                     )}
