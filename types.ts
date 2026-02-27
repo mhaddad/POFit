@@ -3,6 +3,7 @@ export interface Question {
   id: number;
   text: string;
   block: string; // B1 to B12
+  type: 'positive' | 'negative';
 }
 
 export interface AssessmentState {

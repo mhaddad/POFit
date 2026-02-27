@@ -4,7 +4,7 @@ import Layout from '../components/Layout';
 import { User, Mail, ShieldCheck, Loader2 } from 'lucide-react';
 import { ResultData, BlockScores } from '../types';
 import { QUESTIONS } from '../constants';
-import { calculateProfile } from '../utils/calculations';
+import { calculateProfile, calculateScores } from '../utils/calculations';
 
 interface LeadFormProps {
   answers: Record<number, number>;
@@ -16,44 +16,24 @@ const LeadForm: React.FC<LeadFormProps> = ({ answers }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const calculateResults = (): ResultData => {
-    const blockScores: BlockScores = {};
-    for (let i = 1; i <= 12; i++) {
-      const blockKey = `B${i}`;
-      const qIds = QUESTIONS.filter(q => q.block === blockKey).map(q => q.id);
-      const sum = qIds.reduce((acc, id) => acc + (answers[id] || 0), 0);
-      blockScores[blockKey] = sum / qIds.length;
-    }
-
-    const ipa = (blockScores.B1 + blockScores.B4 + blockScores.B10) / 3;
-    const ircc = (blockScores.B6 + blockScores.B7 + blockScores.B8) / 3;
-    const iise = (blockScores.B3 + blockScores.B5 + blockScores.B9) / 3;
-
-    // Axis X (Gestão): IPA
-    const axisX = ipa;
-    // Axis Y (Trabalho): B3, B9
-    const axisY = (blockScores.B3 + blockScores.B9) / 2;
-
-    // Fix: Explicitly cast Object.values and type reduce parameters to resolve unknown inference error on line 35
-    const overallScore = (Object.values(answers) as number[]).reduce((a: number, b: number) => a + b, 0) / 36;
-
-    const profileRes = calculateProfile(axisX, axisY, ipa, ircc, iise, blockScores);
+    const scores = calculateScores(answers);
 
     return {
       id: crypto.randomUUID(),
       date: new Date().toISOString(),
       name,
       email,
-      overallScore: (overallScore / 5) * 100,
-      classification: profileRes.quadrant,
-      subQuadrant: profileRes.profile,
-      riskPersonas: profileRes.personas,
-      designFlags: profileRes.flags,
-      blockScores,
-      ipa,
-      ircc,
-      iise,
-      axisX,
-      axisY
+      overallScore: scores.overallScore,
+      classification: scores.classification,
+      subQuadrant: scores.subQuadrant,
+      riskPersonas: scores.riskPersonas,
+      designFlags: scores.designFlags,
+      blockScores: scores.blockScores,
+      ipa: scores.ipa,
+      ircc: scores.ircc,
+      iise: scores.iise,
+      axisX: scores.axisX,
+      axisY: scores.axisY
     };
   };
 

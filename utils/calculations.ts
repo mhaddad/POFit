@@ -1,4 +1,5 @@
-import { BlockScores } from '../types';
+import { BlockScores, ResultData } from '../types';
+import { QUESTIONS } from '../constants';
 
 export interface ProfileResult {
     quadrant: string;
@@ -61,4 +62,51 @@ export const calculateProfile = (
     if (b.B5 > 4.5 && (b.B3 < 2.5 || b.B11 < 2.5)) flags.push("Comunicação Assíncrona");
 
     return { quadrant, profile, personas, flags };
+};
+
+export const calculateScores = (answers: Record<number, number>): Omit<ResultData, 'id' | 'date' | 'name' | 'email'> => {
+    const blockScores: BlockScores = {};
+    for (let i = 1; i <= 12; i++) {
+        const blockKey = `B${i}`;
+        const blockQuestions = QUESTIONS.filter(q => q.block === blockKey);
+
+        let sum = 0;
+        blockQuestions.forEach(q => {
+            const answer = answers[q.id] || 0;
+            const score = q.type === 'negative' ? (6 - answer) : answer;
+            sum += score;
+        });
+
+        blockScores[blockKey] = sum / blockQuestions.length;
+    }
+
+    const ipa = (blockScores.B1 + blockScores.B4 + blockScores.B10) / 3;
+    const ircc = (blockScores.B6 + blockScores.B7 + blockScores.B8) / 3;
+    const iise = (blockScores.B3 + blockScores.B5 + blockScores.B9) / 3;
+
+    const axisX = ipa;
+    const axisY = (blockScores.B3 + blockScores.B9) / 2;
+
+    const totalNormalizedScore = QUESTIONS.reduce((acc, q) => {
+        const answer = answers[q.id] || 0;
+        const score = q.type === 'negative' ? (6 - answer) : answer;
+        return acc + score;
+    }, 0);
+    const overallScore = totalNormalizedScore / 36;
+
+    const profileRes = calculateProfile(axisX, axisY, ipa, ircc, iise, blockScores);
+
+    return {
+        overallScore: (overallScore / 5) * 100,
+        classification: profileRes.quadrant,
+        subQuadrant: profileRes.profile,
+        riskPersonas: profileRes.personas,
+        designFlags: profileRes.flags,
+        blockScores,
+        ipa,
+        ircc,
+        iise,
+        axisX,
+        axisY
+    };
 };
