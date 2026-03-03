@@ -6,7 +6,32 @@ export interface ProfileResult {
     profile: string;
     personas: string[];
     flags: string[];
+    onboardingModel: string;
 }
+
+export const getIPADiagnosticStatus = (score: number, b10: number, b2: number) => {
+    if (score < 3.0 && b10 > 3.5) return "Autonomia com Suporte Estrutural";
+    if (score < 3.0 && b10 <= 3.5) return "Heteronomia de Execução";
+    if (score > 4.5 && b2 > 4.5) return "Autonomia Estratégica Exponencial";
+    if (score >= 4.0) return "Autonomia Consolidada";
+    return "Autonomia Funcional";
+};
+
+export const getIRCCDiagnosticStatus = (score: number, b7: number, b6: number) => {
+    if (score < 3.0 && b7 > 4.0) return "Resiliência Estrutural";
+    if (score < 3.0 && b7 <= 4.0) return "Vulnerabilidade ao Caos";
+    if (score > 4.5 && b6 > 4.5) return "Resiliência Sistêmica";
+    if (score >= 4.0) return "Resiliência Avançada";
+    return "Resiliência Padrão";
+};
+
+export const getIISEDiagnosticStatus = (score: number, b5: number) => {
+    if (score < 3.0 && b5 > 4.0) return "Colaborador Assíncrono";
+    if (score < 3.0 && b5 <= 4.0) return "Colaborador Seletivo";
+    if (b5 > 4.8) return "Colaborador Ético";
+    if (score >= 4.0) return "Conector Cultural";
+    return "Colaborador Cooperativo";
+};
 
 export const calculateProfile = (
     axisX: number,
@@ -61,7 +86,25 @@ export const calculateProfile = (
     if (b.B10 > 4.0 && (b.B4 < 2.5 || b.B12 < 2.5)) flags.push("Suporte Executivo");
     if (b.B5 > 4.5 && (b.B3 < 2.5 || b.B11 < 2.5)) flags.push("Comunicação Assíncrona");
 
-    return { quadrant, profile, personas, flags };
+    // Onboarding Model Mapping
+    let onboardingModel = "";
+    if (["Facilitador Sistêmico", "Líder Facilitador", "Intraempreendedor Estratégico", "Executor de Alto Impacto"].includes(profile)) {
+        onboardingModel = "A"; // 1.1, 1.2, 2.1, 2.2
+    } else if (["Coordenador de Fluxo", "Coordenador de Suporte", "Especialista de Sustentação", "Especialista em Processos"].includes(profile)) {
+        onboardingModel = "B"; // 3.3, 3.4, 4.3, 4.4
+    } else if (["Especialista Autônomo", "Especialista Analítico", "Especialista da Integridade"].includes(profile)) {
+        onboardingModel = "C"; // 2.3, 2.4, 4.2
+    } else if (["Orquestrador de Times", "Coordenador de Operações", "Coordenador de Conexões"].includes(profile)) {
+        onboardingModel = "D"; // 1.3, 3.1, 3.2
+    } else {
+        onboardingModel = "A"; // Default fallback (Inovador Criativo 1.4, Especialista da Conformidade 4.1 not explicit in mapping, assuming default or keeping logic)
+        // Adjusting based on standard naming:
+        if (profile === "Inovador Criativo") onboardingModel = "A"; // 1.4 usually fits A or C, let's say A
+        if (profile === "Especialista da Conformidade") onboardingModel = "B"; // 4.1 usually fits B
+    }
+
+
+    return { quadrant, profile, personas, flags, onboardingModel };
 };
 
 export const calculateScores = (answers: Record<number, number>): Omit<ResultData, 'id' | 'date' | 'name' | 'email'> => {
@@ -102,6 +145,10 @@ export const calculateScores = (answers: Record<number, number>): Omit<ResultDat
         subQuadrant: profileRes.profile,
         riskPersonas: profileRes.personas,
         designFlags: profileRes.flags,
+        onboardingModel: profileRes.onboardingModel,
+        ipaStatus: getIPADiagnosticStatus(ipa, blockScores.B10, blockScores.B2),
+        irccStatus: getIRCCDiagnosticStatus(ircc, blockScores.B7, blockScores.B6),
+        iiseStatus: getIISEDiagnosticStatus(iise, blockScores.B5),
         blockScores,
         ipa,
         ircc,

@@ -34,6 +34,10 @@ export interface ResultData {
   axisY: number; // Work Dynamics
   aiReport?: string;
   subQuadrant?: string;
+  onboardingModel?: string;
+  ipaStatus?: string;
+  irccStatus?: string;
+  iiseStatus?: string;
   riskPersonas?: string[];
   designFlags?: string[];
 }

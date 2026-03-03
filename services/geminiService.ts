@@ -101,33 +101,33 @@ export const generateAIReport = async (data: ResultData): Promise<string> => {
 
     # FORMATO OBRIGATÓRIO DO RELATÓRIO (APENAS 4 SEÇÕES)
 
-    ## 1. O Lugar de Potência
+    ## 1. RESUMO EXECUTIVO E LUGAR DE POTÊNCIA
     - Identifique o arquétipo exato.
     - Descreva a essência funcional.
     - Explique o ambiente ideal de alta performance.
     - Se Alta Autogestão → citar referências como MorningStar ou Buurtzorg.
     - Se Gestão Tradicional → enfatizar marcos, previsibilidade e estrutura.
 
-    ## 2. Diagnóstico dos Índices (IPA, IRCC e IISE)
+    ## 2. DIAGNÓSTICO DOS ÍNDICES CRÍTICOS
     - Classifique IPA, IRCC e IISE nos Estados Oficiais (identifique com base nos valores).
     - Aplicar lógica de camada dupla (índice + âncora).
     - Identificar assinaturas cognitivas relevantes com base nos blocos e Desings Flags.
     - Indicar riscos de boreout ou sobrecarga.
 
-    ## 3. Manual do Usuário (Onboarding)
+    ## 3. PLANO DE AÇÃO PERSONALIZADO (PERSONAS DE RISCO E ONBOARDING)
     - Verificar presença de Personas de Risco identificadas e comentar.
     - Definir modelo de onboarding adequado.
     - Indicar ajustes de Design Universal caso tenha Design Flags.
 
-    ## 4. Plano de Desenvolvimento (PDI)
+    ## 4. RECOMENDAÇÕES DE DESENVOLVIMENTO
     - Sugerir 3 ações pragmáticas (ex: Redesign de Papel, Mentoria, etc).
 
     # DIRETRIZES DE ESTILO
     - Tom analítico, estratégico e empático.
-    - Não utilizar termos clínicos.
+    - Não utilizar rótulos clínicos ou termos clínicos. Use Nuance de Processamento / Assinatura Cognitiva / Potência Exponencial.
     - Não usar "Autoengrenagem" ou termos e expressões da gestão mecanicista.
     - Usar "Autogerido" ou "Autodirigido".
-    - Não incluir saudações.
+    - Não incluir saudações introduções prévias.
     - Iniciar direto na seção 1.
     - Responder em Português do Brasil.
   `;

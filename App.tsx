@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Home from './pages/Home';
 import Assessment from './pages/Assessment';
 import LeadForm from './pages/LeadForm';
-import Result from './pages/Result';
+import ResultAdmin from './pages/ResultAdmin';
+import ResultUser from './pages/ResultUser';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import { ResultData } from './types';
@@ -23,13 +24,23 @@ const App: React.FC = () => {
     const hash = currentHash || '#/';
 
     if (hash === '#/') return <Home />;
-    if (hash === '#/assessment') return <Assessment onComplete={(data) => {
-      // Step to LeadForm is handled inside Assessment or as a step
-    }} />;
-    
-    // Results are usually persistent or tied to a unique ID (hash)
-    if (hash.startsWith('#/result')) {
-      return <Result />;
+    if (hash === '#/assessment') return <Assessment />;
+
+    if (hash.startsWith('#/result/admin/')) {
+      return <ResultAdmin />;
+    }
+
+    if (hash.startsWith('#/result/user/')) {
+      return <ResultUser />;
+    }
+
+    if (hash.startsWith('#/result/')) {
+      // Legacy redirect to user view
+      const resultId = hash.split('/').pop();
+      if (resultId) {
+        window.location.hash = `#/result/user/${resultId}`;
+        return null; // Will re-render on hash change
+      }
     }
 
     if (hash === '#/admin-login') return <AdminLogin />;
